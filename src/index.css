@@ -1,1 +1,187 @@
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "Trebuchet MS", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --color-ink-950: #070b14;
+  --color-ink-900: #0a101e;
+  --color-ink-850: #0d1526;
+  --color-ink-800: #111a2e;
+  --color-ink-700: #1a2540;
+  --color-ink-600: #243252;
+  --color-line: #1e2a44;
+  --color-fog: #8ea1bd;
+  --color-mist: #c7d3e8;
+  --color-snow: #eef4fc;
+  --color-term: #5ce8a4;
+  --color-solar: #ffb454;
+  --color-aqua: #6fd6ff;
+  --color-blush: #ff7a93;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink-950);
+  color: var(--color-mist);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(92, 232, 164, 0.28);
+  color: var(--color-snow);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink-900);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-600);
+  border-radius: 8px;
+  border: 2px solid var(--color-ink-900);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #35497a;
+}
+
+/* ---------- ambient layers ---------- */
+
+.bg-grid {
+  background-image: linear-gradient(rgba(92, 232, 164, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 232, 164, 0.045) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, black 30%, transparent 78%);
+}
+
+.noise-layer {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+.scanlines::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 70;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.022) 0px,
+    rgba(255, 255, 255, 0.022) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+/* ---------- scroll reveal ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.19, 0.8, 0.22, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- type helpers ---------- */
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.6px rgba(92, 232, 164, 0.85);
+  text-stroke: 1.6px rgba(92, 232, 164, 0.85);
+}
+
+/* ---------- keyframes ---------- */
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.cursor-blink {
+  animation: blink 1.06s step-end infinite;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.marquee-mask:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(92, 232, 164, 0.55); }
+  70% { box-shadow: 0 0 0 9px rgba(92, 232, 164, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(92, 232, 164, 0); }
+}
+.dot-pulse {
+  animation: pulse-dot 2.2s ease-out infinite;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+.animate-floaty {
+  animation: floaty 6.5s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  0% { top: -18%; }
+  100% { top: 118%; }
+}
+.img-sweep::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -18%;
+  height: 14%;
+  background: linear-gradient(to bottom, transparent, rgba(92, 232, 164, 0.14), transparent);
+  animation: sweep 5.2s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes ticker-glow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.animate-ticker-glow {
+  animation: ticker-glow 3.4s ease-in-out infinite;
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .img-sweep::before {
+    display: none;
+  }
+}
