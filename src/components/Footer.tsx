@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-5 px-5 py-8 font-mono text-[12px] text-fog sm:flex-row sm:items-center sm:px-8">
         <div className="space-y-1">
           <p>
-            <span className="text-term">❯</span> © 2025 {profile.name} — dirancang & dikodekan dari nol.
+            <span className="text-term">❯</span> © 2025 {profile.name} : dirancang & dikodekan dari nol.
           </p>
           <p className="text-fog/60">
             React + Tailwind CSS · tanpa template, tanpa <span className="line-through">sleep</span> tidur cukup.

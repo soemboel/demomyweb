@@ -49,7 +49,7 @@ export default function Hero() {
             </h1>
 
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mist/90 sm:text-base">
-              {profile.role} di <span className="font-semibold text-snow">{profile.university}</span> — lebih nyaman
+              {profile.role} di <span className="font-semibold text-snow">{profile.university}</span>, lebih nyaman
               ngobrol sama mesin daripada presentasi. Suka ngulik sistem, bikin web, dan
               <span className="text-term"> mecahin bug jam 2 pagi</span>.
             </p>
@@ -62,10 +62,6 @@ export default function Hero() {
               <span className="flex items-center gap-2 border border-line bg-ink-900 px-3.5 py-2 font-mono text-[11.5px] text-fog">
                 <PinIcon className="h-3.5 w-3.5 text-solar" />
                 {profile.location}
-              </span>
-              <span className="flex items-center gap-2 border border-line bg-ink-900 px-3.5 py-2 font-mono text-[11.5px] text-fog">
-                <GraduationIcon className="h-3.5 w-3.5 text-aqua" />
-                IPK {profile.gpa}
               </span>
             </div>
 
@@ -118,16 +114,14 @@ export default function Hero() {
         {/* statistik */}
         <div
           ref={statsRef}
-          className={`reveal mt-16 grid grid-cols-2 border border-line bg-ink-900/60 md:grid-cols-4 ${statsIn ? "is-in" : ""}`}
+          className={`reveal mt-16 grid grid-cols-1 border border-line bg-ink-900/60 sm:grid-cols-3 ${statsIn ? "is-in" : ""}`}
         >
           {stats.map((s, i) => (
             <div
               key={s.label}
               className={`group relative px-6 py-6 transition-colors duration-300 hover:bg-ink-850 ${
-                i % 2 === 1 ? "border-l border-line" : ""
-              } ${i >= 2 ? "border-t border-line md:border-t-0" : ""} ${
-                i === 2 ? "md:border-l" : ""
-              } ${i === 3 ? "md:border-l" : ""}`}
+                i > 0 ? "border-t border-line sm:border-l sm:border-t-0" : ""
+              }`}
             >
               <p className="font-display text-3xl font-bold text-snow transition-colors duration-300 group-hover:text-term sm:text-4xl">
                 {s.value}

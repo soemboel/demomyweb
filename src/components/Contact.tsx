@@ -47,7 +47,7 @@ export default function Contact() {
       "> mengirim pesan ............... [ OK ]",
       "",
       `Terima kasih, ${firstName}! Pesanmu sudah masuk.`,
-      "// saya biasanya membalas < 24 jam — kecuali lagi UTS.",
+      "// saya biasanya membalas < 24 jam (kecuali lagi UTS).",
     ];
     if (reduced) {
       setOutLines(lines);
@@ -79,15 +79,15 @@ export default function Contact() {
           index="06"
           cmd="$ ./hubungi-saya.sh"
           title="Mari Bikin Sesuatu"
-          sub="// magang, proyek bareng, atau sekadar diskusi soal kenapa printer selalu error — pintu terbuka."
+          sub="// magang, proyek bareng, atau sekadar diskusi soal kenapa printer selalu error (pintu terbuka)."
         />
 
         <div ref={ref} className="grid gap-12 lg:grid-cols-12">
           {/* kiri: info */}
           <div className={`reveal lg:col-span-5 ${visible ? "is-in" : ""}`}>
             <p className="text-[15px] leading-relaxed text-mist/85">
-              Cara tercepat menghubungi saya: <span className="text-term">email</span>. Semua pesan saya baca —
-              bahkan yang isinya cuma "bro, laptopku kena virus".
+              Cara tercepat menghubungi saya: <span className="text-term">email</span>. Semua pesan saya baca.
+              Bahkan yang isinya cuma "bro, laptopku kena virus".
             </p>
 
             <div className="mt-8 border border-line bg-ink-900/80">
@@ -139,7 +139,7 @@ export default function Contact() {
             <div className="mt-8 border border-dashed border-line p-5 font-mono text-[12px] leading-relaxed text-fog">
               <span className="text-term">$</span> cat ketersediaan.txt
               <br />
-              <span className="text-mist/80">→ magang: Juni — Agustus 2026 (atau nego)</span>
+              <span className="text-mist/80">→ magang: Juni - Agustus 2026 (atau nego)</span>
               <br />
               <span className="text-mist/80">→ freelance: akhir pekan, proyek kecil-menengah</span>
               <br />
@@ -154,7 +154,7 @@ export default function Contact() {
                 <span className="h-3 w-3 rounded-full bg-blush/80" />
                 <span className="h-3 w-3 rounded-full bg-solar/80" />
                 <span className="h-3 w-3 rounded-full bg-term/80" />
-                <span className="ml-3 font-mono text-[11px] tracking-wide text-fog">kirim-pesan.sh — executable</span>
+                <span className="ml-3 font-mono text-[11px] tracking-wide text-fog">kirim-pesan.sh (executable)</span>
                 <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.2em] text-fog/60">bash</span>
               </div>
 
@@ -204,23 +204,15 @@ export default function Contact() {
                   </label>
 
                   <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
-                    <p className="font-mono text-[11px] text-fog/60">
-                      // ini template — sambungkan ke Formspree / API-mu sendiri
+                    <p className="font-mono text-[11px] text-blush">
+                      // Error: API sedang gangguan. Tombol kirim pesan tidak dapat digunakan saat ini.
                     </p>
                     <button
-                      type="submit"
-                      disabled={phase === "sending"}
-                      className="group flex items-center gap-2.5 bg-term px-6 py-3 font-mono text-[13px] font-medium text-ink-950 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_36px_-10px_rgba(92,232,164,0.65)] disabled:cursor-wait disabled:opacity-70"
+                      type="button"
+                      disabled={true}
+                      className="group flex items-center gap-2.5 border border-blush/40 bg-ink-850 px-6 py-3 font-mono text-[13px] font-medium text-blush/80 cursor-not-allowed opacity-70"
                     >
-                      {phase === "sending" ? (
-                        <>
-                          <span className="cursor-blink">▮</span> mengirim...
-                        </>
-                      ) : (
-                        <>
-                          <span className="text-ink-950/70">$</span> ./kirim --pesan
-                        </>
-                      )}
+                      <span className="text-blush">✕</span> ./kirim --pesan (API Error)
                     </button>
                   </div>
 
