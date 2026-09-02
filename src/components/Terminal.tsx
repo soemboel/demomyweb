@@ -32,8 +32,7 @@ const HELP: string[] = [
   "  proyek      proyek yang pernah saya kerjakan",
   "  kontak      cara paling cepat menghubungi saya",
   "  sosial      tautan media sosial",
-  "  ipk         baiklah... ini nilainya",
-  "  neofetch    info sistem — wajib dicoba",
+  "  neofetch    info sistem (wajib dicoba)",
   "  tanggal     jam berapa sekarang?",
   "  clear       bersihkan layar",
 ];
@@ -46,7 +45,7 @@ function runCommand(raw: string): Line[] {
       return [{ kind: "accent", text: HELP.join("\n") }];
     case "whoami":
       return [
-        { kind: "out", text: `${profile.name} — ${profile.role}, ${profile.university}.` },
+        { kind: "out", text: `${profile.name}, ${profile.role}, ${profile.university}.` },
         { kind: "out", text: "Suka ngulik sistem, mecahin bug jam 2 pagi, dan ngopi." },
       ];
     case "skills":
@@ -55,7 +54,7 @@ function runCommand(raw: string): Line[] {
       skillGroups.forEach((g) => {
         lines.push({ kind: "accent", text: `── ${g.title} ──` });
         g.items.forEach((it) =>
-          lines.push({ kind: "out", text: `  ${it.name.padEnd(24, " ")} ${"▰".repeat(Math.round(it.level / 10))}${"▱".repeat(10 - Math.round(it.level / 10))} ${it.level}%` })
+          lines.push({ kind: "out", text: `  • ${it.name}` })
         );
       });
       return lines;
@@ -76,12 +75,7 @@ function runCommand(raw: string): Line[] {
     case "sosial":
     case "social":
       return socials.map((s) => ({ kind: "out", text: `  ${s.name.padEnd(11, " ")} ${s.handle}` }));
-    case "ipk":
-    case "gpa":
-      return [
-        { kind: "warn", text: `IPK: ${profile.gpa} / 4.00` },
-        { kind: "out", text: "// angka tidak menjelaskan segalanya, tapi lumayan lah" },
-      ];
+
     case "neofetch":
       return [{ kind: "accent", text: NEOFETCH.join("\n") }];
     case "tanggal":
@@ -242,7 +236,7 @@ export default function Terminal() {
               className="min-w-0 flex-1 border-none bg-transparent font-mono text-[12.5px] text-snow outline-none caret-term sm:text-[13px]"
               spellCheck={false}
               autoComplete="off"
-              aria-label="Terminal input — ketik perintah, misalnya help"
+              aria-label="Terminal input (ketik perintah, misalnya help)"
               placeholder={!focused ? "" : ""}
             />
             <span className={`cursor-blink font-mono text-term ${focused ? "hidden" : ""}`}>▍</span>

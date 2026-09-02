@@ -8,7 +8,7 @@ export const profile = {
   nim: "22/498571/TK/54982",
   major: "Teknik Informatika",
   semester: "Semester 7 · Angkatan 2022",
-  location: "Yogyakarta, Indonesia",
+  location: "Batam, Indonesia",
   email: "raka.adyatma@mail.ugm.ac.id",
   gpa: "3.78",
   status: "Terbuka untuk magang & kolaborasi",
@@ -16,7 +16,6 @@ export const profile = {
 };
 
 export const stats = [
-  { value: "3.78", suffix: "/4.00", label: "Indeks Prestasi Kumulatif" },
   { value: "12", suffix: "+", label: "Proyek selesai & deploy" },
   { value: "6", suffix: "", label: "Sertifikasi & penghargaan" },
   { value: "3", suffix: "x", label: "Juara hackathon & lomba" },
@@ -136,7 +135,7 @@ export const projects: Project[] = [
     id: "batik-cnn",
     title: "batik-cnn",
     tagline: "machine-learning",
-    desc: "Klasifikasi 8 motif batik Nusantara memakai CNN arsitektur custom. Akurasi 94,2% pada dataset 2.400 citra — bahan skripsi yang sedang berjalan.",
+    desc: "Klasifikasi 8 motif batik Nusantara memakai CNN arsitektur custom. Akurasi tinggi pada dataset 2.400 citra (bahan skripsi yang sedang berjalan).",
     tags: ["Python", "TensorFlow", "OpenCV"],
     year: "2024",
     status: "riset",
@@ -191,8 +190,8 @@ export const gitLog: LogEntry[] = [
     hash: "e7f2a91",
     type: "feat",
     message: "magang: Junior Backend Developer @ PT Solusi Data Nusantara",
-    detail: "Bikin microservice Go + optimasi query PostgreSQL, latency turun 43%.",
-    date: "Jun 2025 — kini",
+    detail: "Bikin microservice Go + optimasi query PostgreSQL, latency turun signifikan.",
+    date: "Jun 2025 - kini",
   },
   {
     hash: "9c41bd6",
@@ -206,7 +205,7 @@ export const gitLog: LogEntry[] = [
     type: "chore",
     message: "asisten praktikum Struktur Data & Algoritma",
     detail: "Ngajar 120 mahasiswa, ngoreksi 600+ laporan, sabar level max.",
-    date: "Feb — Jun 2024",
+    date: "Feb - Jun 2024",
   },
   {
     hash: "b5e60c2",
@@ -240,11 +239,11 @@ export type Certification = {
 
 export const certifications: Certification[] = [
   { year: "2025", title: "AWS Certified Cloud Practitioner", issuer: "Amazon Web Services", kind: "sertifikasi" },
-  { year: "2024", title: "Juara 2 — Hackathon Nasional EdTech", issuer: "Kemdikbudristek × TechInAsia", kind: "penghargaan" },
+  { year: "2024", title: "Juara 2: Hackathon Nasional EdTech", issuer: "Kemdikbudristek × TechInAsia", kind: "penghargaan" },
   { year: "2024", title: "Front-End Web Developer Expert", issuer: "Dicoding Indonesia", kind: "sertifikasi" },
-  { year: "2023", title: "Juara 1 — Lomba Web Design Provinsi DIY", issuer: "Dinas Kominfo DIY", kind: "penghargaan" },
+  { year: "2023", title: "Juara 1: Lomba Web Design Provinsi DIY", issuer: "Dinas Kominfo DIY", kind: "penghargaan" },
   { year: "2023", title: "Google IT Support Professional", issuer: "Google × Coursera", kind: "sertifikasi" },
-  { year: "2022", title: "Beasiswa Unggulan — Kategori Prestasi", issuer: "Kemendikbudristek", kind: "penghargaan" },
+  { year: "2022", title: "Beasiswa Unggulan: Kategori Prestasi", issuer: "Kemendikbudristek", kind: "penghargaan" },
 ];
 
 export const socials = [

@@ -8,7 +8,7 @@ const specs: { key: string; value: string; tone?: string }[] = [
   { key: "nim", value: profile.nim },
   { key: "prodi", value: profile.major },
   { key: "kampus", value: profile.university },
-  { key: "semester", value: "7 — angkatan 2022" },
+  { key: "semester", value: "7, angkatan 2022" },
   { key: "fokus", value: profile.focus.join(" · ") },
   { key: "domisili", value: profile.location },
   { key: "status", value: "[online] siap kolaborasi", tone: "text-term" },
@@ -31,11 +31,10 @@ export default function About() {
         index="01"
         cmd="$ cat tentang.txt"
         title="Tentang Saya"
-        sub="// versi singkat: anak IT yang beneran suka komputer, bukan cuma suka tampilannya."
       />
 
       <div className="grid gap-12 lg:grid-cols-12">
-        {/* foto — sticky di desktop */}
+        {/* foto: sticky di desktop */}
         <div className="lg:col-span-5">
           <div ref={imgRef} className={`reveal lg:sticky lg:top-28 ${imgIn ? "is-in" : ""}`}>
             <div className="group relative border border-line bg-ink-900 p-3">
@@ -72,13 +71,13 @@ export default function About() {
               Halo! Saya <span className="font-semibold text-snow">{profile.name}</span>, mahasiswa{" "}
               <span className="font-semibold text-snow">{profile.major}</span> di{" "}
               <span className="font-semibold text-snow">{profile.university}</span>. Ketertarikan saya ke komputer
-              mulai dari hal sederhana: <span className="text-term">penasaran kenapa game bisa jalan</span> — lalu
+              mulai dari hal sederhana: <span className="text-term">penasaran kenapa game bisa jalan</span>, lalu
               kebablasan sampai ngerakit PC sendiri, install Linux, dan jatuh cinta sama terminal.
             </p>
             <p>
               Sekarang fokus saya di <span className="font-semibold text-snow">web development dan backend</span>,
               dengan hobi sampingan ngoprek server, otomasi pakai bash, dan sesekali nyemplung ke machine learning.
-              Saya percaya programmer yang baik itu <span className="text-solar">paham komputer dari bawah</span> —
+              Saya percaya programmer yang baik itu <span className="text-solar">paham komputer dari bawah</span>,
               dari cara memori bekerja sampai kenapa DNS selalu jadi tersangka utama.
             </p>
             <p>
@@ -93,7 +92,7 @@ export default function About() {
               <span className="h-2.5 w-2.5 rounded-full bg-blush/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-solar/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-term/70" />
-              <span className="ml-2 font-mono text-[11px] text-fog">spesifikasi.txt — neovim</span>
+              <span className="ml-2 font-mono text-[11px] text-fog">spesifikasi.txt (neovim)</span>
             </div>
             <dl className="px-5 py-4 font-mono text-[12.5px] leading-[2.05]">
               <div className="text-fog">

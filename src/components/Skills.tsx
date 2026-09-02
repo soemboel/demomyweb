@@ -19,7 +19,7 @@ export default function Skills() {
           index="02"
           cmd="$ htop --sort=cpu"
           title="Arsip Kemampuan"
-          sub="// jujur-jujuran saja: persentase = seberapa sering saya memakainya tanpa menangis."
+          sub="// daftar kemampuan & teknologi yang sering digunakan."
         />
 
         <div ref={ref} className="grid gap-6 md:grid-cols-3">
@@ -39,22 +39,11 @@ export default function Skills() {
                 </div>
                 <p className="mt-1 font-mono text-[11px] text-fog/70">{group.note}</p>
 
-                <ul className="mt-6 space-y-4">
-                  {group.items.map((item, i) => (
-                    <li key={item.name}>
-                      <div className="mb-1.5 flex items-center justify-between font-mono text-[12px]">
-                        <span className="text-mist">{item.name}</span>
-                        <span className={accent.text}>{item.level}%</span>
-                      </div>
-                      <div className="h-[5px] w-full overflow-hidden bg-ink-700/70">
-                        <div
-                          className={`h-full ${accent.bar} transition-[width] duration-1000 ease-out`}
-                          style={{
-                            width: visible ? `${item.level}%` : "0%",
-                            transitionDelay: `${gi * 110 + i * 80}ms`,
-                          }}
-                        />
-                      </div>
+                <ul className="mt-6 space-y-2.5">
+                  {group.items.map((item) => (
+                    <li key={item.name} className="flex items-center gap-2.5 font-mono text-[12.5px]">
+                      <span className={`h-1.5 w-1.5 rounded-full ${accent.bar}`} />
+                      <span className="text-mist">{item.name}</span>
                     </li>
                   ))}
                 </ul>
