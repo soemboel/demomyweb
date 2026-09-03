@@ -49,9 +49,10 @@ export default function Hero() {
             </h1>
 
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mist/90 sm:text-base">
-              {profile.role} di <span className="font-semibold text-snow">{profile.university}</span>, lebih nyaman
-              ngobrol sama mesin daripada presentasi. Suka ngulik sistem, bikin web, dan
-              <span className="text-term"> mecahin bug jam 2 pagi</span>.
+              {profile.role}, jurusan{" "}
+              <span className="font-semibold text-snow">{profile.major}</span>. Lebih nyaman
+              ngobrol sama mesin daripada presentasi. Suka ngulik server, bikin desktop app & web, dan
+              <span className="text-term"> debug jam 2 pagi</span>.
             </p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">

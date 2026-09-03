@@ -139,8 +139,6 @@ export default function Contact() {
             <div className="mt-8 border border-dashed border-line p-5 font-mono text-[12px] leading-relaxed text-fog">
               <span className="text-term">$</span> cat ketersediaan.txt
               <br />
-              <span className="text-mist/80">→ magang: Juni - Agustus 2026 (atau nego)</span>
-              <br />
               <span className="text-mist/80">→ freelance: akhir pekan, proyek kecil-menengah</span>
               <br />
               <span className="text-mist/80">→ zona waktu: WIB (UTC+7), sering online malam</span>
@@ -198,7 +196,7 @@ export default function Contact() {
                       rows={5}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Halo Raka, saya mau ngajak kolaborasi proyek..."
+                      placeholder="Halo Habiby, saya mau ngajak kolaborasi proyek..."
                       className="mt-2 w-full resize-none border-b border-line bg-transparent px-1 py-2 font-mono text-[14px] leading-relaxed text-snow outline-none transition-colors duration-200 placeholder:text-fog/40 focus:border-term"
                     />
                   </label>
