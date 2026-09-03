@@ -14,15 +14,15 @@ const lineClass: Record<Line["kind"], string> = {
 };
 
 const NEOFETCH = [
-  "   ██████╗         raka@ugm-lab",
-  "   ██╔══██╗        ───────────────────────",
-  "   ██████╔╝        OS       : Ubuntu 24.04 LTS (WSL2)",
-  "   ██╔══██╗        Host     : Legion 5 · Ryzen 7",
-  "   ██║  ██║        Kernel   : 6.8.0-generic",
-  "   ╚═╝  ╚═╝        Uptime   : 3 tahun kuliah, 0 DO",
-  "                   Shell    : zsh 5.9 + oh-my-posh",
+  "   ██╗  ██╗        habiby@smkn5-batam",
+  "   ██║  ██║        ───────────────────────",
+  "   ███████║        OS       : Debian/Ubuntu (WSL2)",
+  "   ██╔══██║        Host     : Laptop + PC Bekas",
+  "   ██║  ██║        Kernel   : 6.x.0-generic",
+  "   ╚═╝  ╚═╝        Uptime   : Semester 6, masih kuat",
+  "                   Shell    : bash + zsh",
   "                   Editor   : Neovim (btw)",
-  "                   GPU      : RTX 3060 + kopi hitam",
+  "                   Status   : [idle] bersantai",
 ];
 
 const HELP: string[] = [
@@ -69,8 +69,8 @@ function runCommand(raw: string): Line[] {
     case "contact":
       return [
         { kind: "out", text: `email  : ${profile.email}` },
-        { kind: "out", text: "github : github.com/rakadyt" },
-        { kind: "out", text: "respon : biasanya < 24 jam (kecuali lagi UTS)" },
+        { kind: "out", text: "github : github.com/soemboel" },
+        { kind: "out", text: "respon : biasanya < 24 jam (kecuali lagi ngerjain tugas)" },
       ];
     case "sosial":
     case "social":
@@ -111,8 +111,8 @@ type BootStep = { text: string; kind: Line["kind"]; wait: number };
 const BOOT: BootStep[] = [
   { text: "$ ./boot-portfolio.sh", kind: "cmd", wait: 0 },
   { text: "> inisialisasi portfolio v2.5.1 ....... [ OK ]", kind: "ok", wait: 420 },
-  { text: "> memuat 6 proyek terpilih ............ [ OK ]", kind: "ok", wait: 900 },
-  { text: "> memeriksa status .................... [ TERBUKA UNTUK MAGANG ]", kind: "warn", wait: 1400 },
+  { text: "> memuat 4 proyek terpilih ............ [ OK ]", kind: "ok", wait: 900 },
+  { text: "> memeriksa status .................... [ IDLE - BERSANTAI ]", kind: "warn", wait: 1400 },
   { text: "> sistem siap. Ketik 'help' untuk mulai, atau klik chip di bawah.", kind: "out", wait: 1950 },
 ];
 

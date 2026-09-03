@@ -5,13 +5,12 @@ import { CheckIcon } from "./icons";
 
 const specs: { key: string; value: string; tone?: string }[] = [
   { key: "nama_lengkap", value: profile.name },
-  { key: "nim", value: profile.nim },
-  { key: "prodi", value: profile.major },
-  { key: "kampus", value: profile.university },
-  { key: "semester", value: "7, angkatan 2022" },
+  { key: "sekolah", value: profile.university },
+  { key: "jurusan", value: profile.major },
+  { key: "semester", value: profile.semester },
   { key: "fokus", value: profile.focus.join(" · ") },
   { key: "domisili", value: profile.location },
-  { key: "status", value: "[online] siap kolaborasi", tone: "text-term" },
+  { key: "status", value: profile.status, tone: "text-solar" },
 ];
 
 const principles = [
@@ -46,8 +45,8 @@ export default function About() {
 
               <div className="img-sweep relative overflow-hidden">
                 <img
-                  src="https://image.qwenlm.ai/generated-images/41344feb-f3f3-4f37-935c-0f6a8ae5879c/_result.png"
-                  alt={`Ilustrasi potret ${profile.name}`}
+                  src={profile.avatar || "/profile.jpg"}
+                  alt={`Potret ${profile.name}`}
                   className="w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   loading="lazy"
                 />
@@ -56,7 +55,7 @@ export default function About() {
 
               <div className="flex items-center justify-between px-1 pb-1 pt-3 font-mono text-[11px] text-fog">
                 <span>
-                  avatar.png <span className="text-fog/50">· 1024×1024</span>
+                  profile.jpg <span className="text-fog/50">· 1024×1024</span>
                 </span>
                 <span className="animate-ticker-glow text-term">● live</span>
               </div>
@@ -68,20 +67,18 @@ export default function About() {
         <div ref={textRef} className={`reveal lg:col-span-7 ${textIn ? "is-in" : ""}`}>
           <div className="space-y-5 text-[15px] leading-relaxed text-mist/90">
             <p>
-              Halo! Saya <span className="font-semibold text-snow">{profile.name}</span>, mahasiswa{" "}
+              Halo! Saya <span className="font-semibold text-snow">{profile.name}</span>, siswa{" "}
               <span className="font-semibold text-snow">{profile.major}</span> di{" "}
-              <span className="font-semibold text-snow">{profile.university}</span>. Ketertarikan saya ke komputer
-              mulai dari hal sederhana: <span className="text-term">penasaran kenapa game bisa jalan</span>, lalu
-              kebablasan sampai ngerakit PC sendiri, install Linux, dan jatuh cinta sama terminal.
+              <span className="font-semibold text-snow">{profile.university}</span>.
             </p>
             <p>
-              Sekarang fokus saya di <span className="font-semibold text-snow">web development dan backend</span>,
-              dengan hobi sampingan ngoprek server, otomasi pakai bash, dan sesekali nyemplung ke machine learning.
+              Sekarang fokus saya di <span className="font-semibold text-snow">desktop app development dan web</span>,
+              dengan hobi sampingan ngoprek server, otomasi pakai bash/ssh, dan sesekali nyemplung ke machine learning.
               Saya percaya programmer yang baik itu <span className="text-solar">paham komputer dari bawah</span>,
               dari cara memori bekerja sampai kenapa DNS selalu jadi tersangka utama.
             </p>
             <p>
-              Di luar layar: ngopi di angkringan, futsal bareng teman seangkatan, dan jadi tempat servis laptop
+              Di luar layar: ngopi di angkringan, nonton anime, dan jadi tempat servis laptop
               gratis bagi seluruh keluarga besar. <span className="text-fog">(iya, itu juga skill.)</span>
             </p>
           </div>

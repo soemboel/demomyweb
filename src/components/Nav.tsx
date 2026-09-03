@@ -19,7 +19,7 @@ export default function Nav() {
         <a href="#beranda" className="group flex items-center gap-2 font-mono text-sm text-snow">
           <span className="text-term transition-transform duration-300 group-hover:translate-x-0.5">❯_</span>
           <span>
-            raka<span className="text-fog">.dev</span>
+            habiby<span className="text-fog">.dev</span>
           </span>
         </a>
 
