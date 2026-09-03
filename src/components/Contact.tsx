@@ -79,14 +79,14 @@ export default function Contact() {
           index="06"
           cmd="$ ./hubungi-saya.sh"
           title="Mari Bikin Sesuatu"
-          sub="// magang, proyek bareng, atau sekadar diskusi soal kenapa printer selalu error (pintu terbuka)."
+          sub="// magang, proyek bareng, atau sekadar diskusi soal kenapa printer selalu error."
         />
 
         <div ref={ref} className="grid gap-12 lg:grid-cols-12">
           {/* kiri: info */}
           <div className={`reveal lg:col-span-5 ${visible ? "is-in" : ""}`}>
             <p className="text-[15px] leading-relaxed text-mist/85">
-              Cara tercepat menghubungi saya: <span className="text-term">email</span>. Semua pesan saya baca.
+              Cara tercepat menghubungi saya: <span className="text-term">whatsapp</span>. Semua pesan saya baca.
               Bahkan yang isinya cuma "bro, laptopku kena virus".
             </p>
 
@@ -139,7 +139,7 @@ export default function Contact() {
             <div className="mt-8 border border-dashed border-line p-5 font-mono text-[12px] leading-relaxed text-fog">
               <span className="text-term">$</span> cat ketersediaan.txt
               <br />
-              <span className="text-mist/80">→ freelance: akhir pekan, proyek kecil-menengah</span>
+              <span className="text-mist/80">→ kegiatan: akhir pekan, proyek kecil-menengah, dan berlibur</span>
               <br />
               <span className="text-mist/80">→ zona waktu: WIB (UTC+7), sering online malam</span>
             </div>

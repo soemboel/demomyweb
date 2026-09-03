@@ -17,7 +17,7 @@ export const profile = {
 };
 
 export const stats = [
-  { value: "3", suffix: "", label: "Proyek selesai & deploy" },
+  { value: "4", suffix: "", label: "Proyek selesai & deploy" },
   { value: "1", suffix: "x", label: "Juara LKS Provinsi" },
   { value: "6", suffix: " bln", label: "Pengalaman magang" },
 ];
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     title: "Web Steganography",
     tagline: "keamanan-web",
     desc: "Aplikasi web untuk menyembunyikan pesan rahasia di dalam gambar menggunakan teknik steganografi. Dibangun saat magang sebagai proyek riset keamanan.",
-    tags: ["JavaScript", "Node.js", "Canvas API"],
+    tags: ["JavaScript"],
     year: "2026",
     status: "aktif",
     accent: "aqua",

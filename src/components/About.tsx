@@ -14,10 +14,10 @@ const specs: { key: string; value: string; tone?: string }[] = [
 ];
 
 const principles = [
-  "Debug dulu, panik belakangan.",
-  "Baca dokumentasi sebelum Stack Overflow. (oke, kadang kebalik)",
+  "Panik dulu, baru pusing.",
+  "Baca dokumentasi sebelum Stack Overflow. (oke, kadang kebalik atau Ai)",
   "Commit kecil, sering. Bukan satu commit \"final_fix_v2_beneran\".",
-  "Komputer itu alat berpikir, bukan sekadar alat ngetik.",
+  "Komputer itu alat berpikir, bukan ngetik aja.",
 ];
 
 export default function About() {
@@ -78,7 +78,7 @@ export default function About() {
               dari cara memori bekerja sampai kenapa DNS selalu jadi tersangka utama.
             </p>
             <p>
-              Di luar layar: ngopi di angkringan, nonton anime, dan jadi tempat servis laptop
+              Di luar layar: ngopi di angkringan, nonton anime <span className="text-fog">(Wibu akut btw)</span>, dan jadi tempat servis laptop
               gratis bagi seluruh keluarga besar. <span className="text-fog">(iya, itu juga skill.)</span>
             </p>
           </div>

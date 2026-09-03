@@ -16,12 +16,12 @@ const lineClass: Record<Line["kind"], string> = {
 const NEOFETCH = [
   "   ██╗  ██╗        habiby@smkn5-batam",
   "   ██║  ██║        ───────────────────────",
-  "   ███████║        OS       : Debian/Ubuntu (WSL2)",
+  "   ███████║        OS       : Debian/Ubuntu",
   "   ██╔══██║        Host     : Laptop + PC Bekas",
   "   ██║  ██║        Kernel   : 6.x.0-generic",
   "   ╚═╝  ╚═╝        Uptime   : Semester 6, masih kuat",
-  "                   Shell    : bash + zsh",
-  "                   Editor   : Neovim (btw)",
+  "                   Shell    : bash (karena kebiasa linux)",
+  "                   Editor   : VScode, Visual Studio",
   "                   Status   : [idle] bersantai",
 ];
 
