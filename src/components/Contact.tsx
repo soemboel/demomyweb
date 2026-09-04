@@ -26,6 +26,7 @@ export default function Contact() {
   const [phase, setPhase] = useState<"idle" | "sending" | "sent">("idle");
   const [outLines, setOutLines] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const copyEmail = async () => {
     try {
@@ -37,30 +38,92 @@ export default function Contact() {
     }
   };
 
+  // Validate fields and return error message or null
+  const validate = (): string | null => {
+    if (!name.trim()) return "Nama tidak boleh kosong.";
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))
+      return "Email tidak valid.";
+    if (!message.trim() || message.trim().length < 5)
+      return "Pesan terlalu pendek.";
+    return null;
+  };
+
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (phase === "sending") return;
+
+    const errMsg = validate();
+    if (errMsg) {
+      setValidationError(errMsg);
+      return;
+    }
+    setValidationError(null);
+
     const firstName = name.trim().split(" ")[0] || "kawan";
-    const lines = [
-      "> memvalidasi input ............ [ OK ]",
-      "> membuka koneksi aman ......... [ OK ]",
-      "> mengirim pesan ............... [ OK ]",
+
+    // Steps: [label, ok]
+    const steps: [string, boolean][] = [
+      ["memvalidasi input", true],
+      ["membuka koneksi aman", true],
+      ["mengirim pesan", true],
+    ];
+    const suffix = [
       "",
       `Terima kasih, ${firstName}! Pesanmu sudah masuk.`,
-      "// saya biasanya membalas < 24 jam (kecuali lagi UTS).",
+      "// saya biasanya membalas < 24 jam (kecuali lagi sibuk).",
     ];
+
     if (reduced) {
+      const lines = [
+        ...steps.map(([label, ok]) => {
+          const pad = ".".repeat(Math.max(1, 28 - label.length));
+          return `> ${label} ${pad} [ ${ok ? "OK" : "ERR"} ]`;
+        }),
+        ...suffix,
+      ];
       setOutLines(lines);
       setPhase("sent");
       return;
     }
+
     setPhase("sending");
     setOutLines([]);
-    lines.forEach((line, i) => {
+
+    const DOT_INTERVAL = 120;
+    const DOT_COUNT = 4;
+    const STEP_GAP = 220;
+
+    let timeOffset = 300;
+
+    steps.forEach(([label, ok], stepIdx) => {
+      const pad = ".".repeat(Math.max(1, 28 - label.length));
+      const loadingLine = `> ${label} ${pad} ...`;
+      const resultLine = `> ${label} ${pad} [ ${ok ? "OK" : "ERR"} ]`;
+
+      //loading line
       setTimeout(() => {
-        setOutLines((prev) => [...prev, line]);
-        if (i === lines.length - 1) setPhase("sent");
-      }, 420 + i * 380);
+        setOutLines((prev) => [...prev, loadingLine]);
+      }, timeOffset);
+      timeOffset += DOT_INTERVAL * DOT_COUNT;
+
+      setTimeout(() => {
+        setOutLines((prev) => {
+          const next = [...prev];
+          const idx = next.lastIndexOf(loadingLine);
+          if (idx !== -1) next[idx] = resultLine;
+          return next;
+        });
+      }, timeOffset);
+      timeOffset += STEP_GAP;
+
+      if (stepIdx === steps.length - 1) {
+        suffix.forEach((line, si) => {
+          setTimeout(() => {
+            setOutLines((prev) => [...prev, line]);
+            if (si === suffix.length - 1) setPhase("sent");
+          }, timeOffset + si * 300);
+        });
+      }
     });
   };
 
@@ -202,15 +265,18 @@ export default function Contact() {
                   </label>
 
                   <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
-                    <p className="font-mono text-[11px] text-blush">
-                      // Error: API sedang gangguan. Tombol kirim pesan tidak dapat digunakan saat ini.
+                    <p className="font-mono text-[11px] text-fog/60">
+                      {validationError
+                        ? <span className="text-blush">{`// Error: ${validationError}`}</span>
+                        : "// Mohon di isi dengan benar"}
                     </p>
                     <button
-                      type="button"
-                      disabled={true}
-                      className="group flex items-center gap-2.5 border border-blush/40 bg-ink-850 px-6 py-3 font-mono text-[13px] font-medium text-blush/80 cursor-not-allowed opacity-70"
+                      type="submit"
+                      disabled={phase === "sending"}
+                      className="group flex items-center gap-2.5 border border-term/50 bg-ink-850 px-6 py-3 font-mono text-[13px] font-medium text-term hover:bg-term/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                     >
-                      <span className="text-blush">✕</span> ./kirim --pesan (API Error)
+                      <span className="text-term">▶</span>
+                      {phase === "sending" ? "mengirim..." : "./kirim --pesan"}
                     </button>
                   </div>
 
@@ -223,6 +289,7 @@ export default function Contact() {
                       ))}
                     </div>
                   )}
+
                 </form>
               ) : (
                 <div className="p-6 font-mono text-[13px] leading-[1.9] sm:p-8">
