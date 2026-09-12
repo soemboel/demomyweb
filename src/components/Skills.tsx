@@ -1,4 +1,4 @@
-import { learning, skillGroups, toolbox } from "../data";
+import { useLanguage } from "../i18n/LanguageContext";
 import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { ChipIcon } from "./icons";
@@ -10,17 +10,14 @@ const accentMap = {
 } as const;
 
 export default function Skills() {
+  const { t } = useLanguage();
+  const { skillGroups, learning, toolbox, skills } = t;
   const { ref, visible } = useReveal<HTMLDivElement>(0.1);
 
   return (
     <section id="skill" className="relative scroll-mt-24 border-y border-line bg-ink-900/40">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
-        <SectionHeader
-          index="02"
-          cmd="$ htop --sort=cpu"
-          title="Arsip Kemampuan"
-          sub="// daftar kemampuan & teknologi yang sering digunakan."
-        />
+        <SectionHeader index="02" cmd={skills.sectionCmd} title={skills.sectionTitle} sub={skills.sectionSub} />
 
         <div ref={ref} className="grid gap-6 md:grid-cols-3">
           {skillGroups.map((group, gi) => {
@@ -60,7 +57,7 @@ export default function Skills() {
           <div className="border border-dashed border-term/30 bg-term/[0.03] p-6">
             <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.2em] text-term">
               <span className="dot-pulse h-1.5 w-1.5 rounded-full bg-term" />
-              sedang dipelajari
+              {skills.learningLabel}
             </p>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {learning.map((l) => (
@@ -78,15 +75,15 @@ export default function Skills() {
           <div className="border border-line bg-ink-900/80 p-6">
             <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.2em] text-solar">
               <ChipIcon className="h-4 w-4" />
-              alat tempur harian
+              {skills.toolboxLabel}
             </p>
             <div className="mt-4 flex flex-wrap gap-2.5">
-              {toolbox.map((t) => (
+              {toolbox.map((tool) => (
                 <span
-                  key={t}
+                  key={tool}
                   className="border border-line bg-ink-850 px-3.5 py-1.5 font-mono text-[12.5px] text-mist/85 transition-all duration-200 hover:-translate-y-0.5 hover:border-solar/40 hover:text-solar"
                 >
-                  {t}
+                  {tool}
                 </span>
               ))}
             </div>

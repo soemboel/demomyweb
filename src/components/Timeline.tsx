@@ -1,4 +1,4 @@
-import { gitLog } from "../data";
+import { useLanguage } from "../i18n/LanguageContext";
 import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { BranchIcon } from "./icons";
@@ -11,30 +11,28 @@ const typeStyle: Record<string, { badge: string; dot: string }> = {
 };
 
 export default function Timeline() {
+  const { t } = useLanguage();
+  const { gitLog, timelineUI } = t;
   const { ref, visible } = useReveal<HTMLDivElement>(0.06);
 
   return (
     <section id="riwayat" className="relative scroll-mt-24 border-y border-line bg-ink-900/40">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
-        <SectionHeader
-          index="04"
-          cmd="$ git log --perjalanan --graph"
-          title="Riwayat Perjalanan"
-          sub="// setiap baris di bawah ini adalah satu commit yang membentuk saya hari ini."
-        />
+        <SectionHeader index="04" cmd={timelineUI.sectionCmd} title={timelineUI.sectionTitle} sub={timelineUI.sectionSub} />
 
         <div className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[12px] text-fog">
           <span className="flex items-center gap-2 text-term">
-            <BranchIcon className="h-4 w-4" /> branch: <span className="text-mist">main</span>
+            <BranchIcon className="h-4 w-4" /> {timelineUI.branchLabel} <span className="text-mist">main</span>
           </span>
           <span>
-            commits: <span className="text-mist">{gitLog.length}</span>
+            {timelineUI.commitsLabel} <span className="text-mist">{gitLog.length}</span>
           </span>
           <span>
-            merge conflict: <span className="text-term">0</span> <span className="text-fog/60">(hampir)</span>
+            {timelineUI.mergeConflictLabel} <span className="text-term">0</span>{" "}
+            <span className="text-fog/60">{timelineUI.mergeConflictNote}</span>
           </span>
           <span>
-            contributors: <span className="text-solar">1</span> + banyak dosen & mentor
+            {timelineUI.contributorsLabel} <span className="text-solar">1</span> {timelineUI.contributorsNote}
           </span>
         </div>
 

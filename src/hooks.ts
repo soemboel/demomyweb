@@ -89,15 +89,15 @@ export function useScramble(target: string, start: boolean, delay = 0): string {
   return out;
 }
 
-/** Jam digital yang berdetak (format id-ID). */
-export function useClock(timeZone = "Asia/Jakarta"): string {
+/** Jam digital yang berdetak. */
+export function useClock(locale = "id-ID", timeZone = "Asia/Jakarta"): string {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
   try {
-    return new Intl.DateTimeFormat("id-ID", {
+    return new Intl.DateTimeFormat(locale, {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
@@ -105,7 +105,7 @@ export function useClock(timeZone = "Asia/Jakarta"): string {
       timeZone,
     }).format(now);
   } catch {
-    return now.toLocaleTimeString("id-ID");
+    return now.toLocaleTimeString(locale);
   }
 }
 

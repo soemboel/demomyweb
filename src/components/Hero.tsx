@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { profile, socials, stats } from "../data";
+import { useLanguage } from "../i18n/LanguageContext";
 import { useReveal, useScramble } from "../hooks";
 import { ArrowUpRight, GithubIcon, GraduationIcon, InstagramIcon, LinkedinIcon, MailIcon, PinIcon } from "./icons";
 import Terminal from "./Terminal";
@@ -18,10 +18,12 @@ const socialIcon = (name: string) => {
 };
 
 export default function Hero() {
+  const { t } = useLanguage();
+  const { profile, socials, stats, hero } = t;
   const [started, setStarted] = useState(false);
   useEffect(() => {
-    const t = setTimeout(() => setStarted(true), 250);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setStarted(true), 250);
+    return () => clearTimeout(timer);
   }, []);
 
   const line1 = useScramble(profile.firstName, started, 0);
@@ -36,7 +38,7 @@ export default function Hero() {
           {/* kiri: identitas */}
           <div className="lg:col-span-6">
             <p className="font-mono text-[13px] text-term">
-              <span className="text-fog">~/beranda $</span> whoami
+              <span className="text-fog">{hero.promptPath} $</span> {hero.promptCmd}
             </p>
 
             <h1 className="mt-5 font-display font-bold leading-[0.95] tracking-tight text-snow">
@@ -49,10 +51,12 @@ export default function Hero() {
             </h1>
 
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mist/90 sm:text-base">
-              {profile.role}, jurusan{" "}
-              <span className="font-semibold text-snow">{profile.major}</span>. Lebih nyaman
-              ngobrol sama mesin daripada presentasi. Suka ngulik server, bikin desktop app & web, dan
-              <span className="text-term"> debug jam 2 pagi</span>.
+              {profile.role}
+              {hero.joinRole}
+              <span className="font-semibold text-snow">{profile.major}</span>
+              {hero.afterMajor}
+              <span className="text-term">{hero.highlight}</span>
+              {hero.afterHighlight}
             </p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
@@ -71,14 +75,14 @@ export default function Hero() {
                 href="#proyek"
                 className="group flex items-center gap-2.5 bg-term px-6 py-3 font-mono text-[13px] font-medium text-ink-950 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_36px_-10px_rgba(92,232,164,0.65)]"
               >
-                <span className="text-ink-950/70">$</span> ./lihat-proyek
+                <span className="text-ink-950/70">$</span> {hero.ctaProjects}
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
               <a
                 href="#kontak"
                 className="border border-solar/40 px-6 py-3 font-mono text-[13px] text-solar transition-all duration-200 hover:-translate-y-0.5 hover:bg-solar/10"
               >
-                [ man kontak ]
+                {hero.ctaContact}
               </a>
             </div>
 
@@ -107,7 +111,7 @@ export default function Hero() {
           <div className="animate-floaty lg:col-span-6 lg:mt-2">
             <Terminal />
             <p className="mt-3 text-right font-mono text-[11px] text-fog/50">
-              // ya, terminalnya beneran bisa diketik
+              {hero.terminalCaption}
             </p>
           </div>
         </div>

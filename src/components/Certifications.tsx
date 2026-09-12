@@ -1,19 +1,16 @@
-import { certifications } from "../data";
+import { useLanguage } from "../i18n/LanguageContext";
 import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { ArrowUpRight } from "./icons";
 
 export default function Certifications() {
+  const { t } = useLanguage();
+  const { certifications, certUI } = t;
   const { ref, visible } = useReveal<HTMLDivElement>(0.08);
 
   return (
     <section className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
-      <SectionHeader
-        index="05"
-        cmd="$ ls ~/sertifikat --sort=tahun"
-        title="Sertifikasi & Penghargaan"
-        sub="// bukti tertulis bahwa begadangnya tidak sia-sia."
-      />
+      <SectionHeader index="05" cmd={certUI.sectionCmd} title={certUI.sectionTitle} sub={certUI.sectionSub} />
 
       <div ref={ref} className="border-t border-line">
         {certifications.map((c, i) => (
@@ -33,10 +30,10 @@ export default function Certifications() {
             </div>
             <span
               className={`col-start-2 justify-self-start border px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] sm:col-start-3 sm:justify-self-end ${
-                c.kind === "sertifikasi" ? "border-aqua/40 text-aqua" : "border-solar/40 text-solar"
+                c.kind === "certification" ? "border-aqua/40 text-aqua" : "border-solar/40 text-solar"
               }`}
             >
-              {c.kind}
+              {certUI.kindLabels[c.kind]}
             </span>
           </div>
         ))}
@@ -47,7 +44,7 @@ export default function Certifications() {
           rel="noreferrer"
           className="group mt-8 inline-flex items-center gap-2 font-mono text-[13px] text-fog transition-colors duration-200 hover:text-term"
         >
-          <span className="text-term">$</span> verifikasi selengkapnya di LinkedIn
+          <span className="text-term">$</span> {certUI.verifyCta}
           <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
       </div>

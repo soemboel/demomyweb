@@ -1,36 +1,27 @@
-import { profile } from "../data";
+import { useLanguage } from "../i18n/LanguageContext";
 import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { CheckIcon } from "./icons";
 
-const specs: { key: string; value: string; tone?: string }[] = [
-  { key: "nama_lengkap", value: profile.name },
-  { key: "sekolah", value: profile.university },
-  { key: "jurusan", value: profile.major },
-  { key: "semester", value: profile.semester },
-  { key: "fokus", value: profile.focus.join(" · ") },
-  { key: "domisili", value: profile.location },
-  { key: "status", value: profile.status, tone: "text-solar" },
-];
-
-const principles = [
-  "Panik dulu, baru pusing.",
-  "Baca dokumentasi sebelum Stack Overflow. (oke, kadang kebalik atau Ai)",
-  "Commit kecil, sering. Bukan satu commit \"final_fix_v2_beneran\".",
-  "Komputer itu alat berpikir, bukan ngetik aja.",
-];
-
 export default function About() {
+  const { t } = useLanguage();
+  const { profile, about } = t;
   const { ref: imgRef, visible: imgIn } = useReveal<HTMLDivElement>();
   const { ref: textRef, visible: textIn } = useReveal<HTMLDivElement>();
 
+  const specs: { key: string; value: string; tone?: string }[] = [
+    { key: about.specsLabels.fullName, value: profile.name },
+    { key: about.specsLabels.school, value: profile.university },
+    { key: about.specsLabels.major, value: profile.major },
+    { key: about.specsLabels.semester, value: profile.semester },
+    { key: about.specsLabels.focus, value: profile.focus.join(" · ") },
+    { key: about.specsLabels.location, value: profile.location },
+    { key: about.specsLabels.status, value: profile.status, tone: "text-solar" },
+  ];
+
   return (
     <section id="tentang" className="relative mx-auto max-w-6xl scroll-mt-24 px-5 py-24 sm:px-8 sm:py-28">
-      <SectionHeader
-        index="01"
-        cmd="$ cat tentang.txt"
-        title="Tentang Saya"
-      />
+      <SectionHeader index="01" cmd={about.sectionCmd} title={about.sectionTitle} />
 
       <div className="grid gap-12 lg:grid-cols-12">
         {/* foto: sticky di desktop */}
@@ -46,7 +37,7 @@ export default function About() {
               <div className="img-sweep relative overflow-hidden">
                 <img
                   src={profile.avatar || "/profile.jpg"}
-                  alt={`Potret ${profile.name}`}
+                  alt={`${about.altPrefix} ${profile.name}`}
                   className="w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   loading="lazy"
                 />
@@ -57,7 +48,7 @@ export default function About() {
                 <span>
                   profile.jpg <span className="text-fog/50">· 1024×1024</span>
                 </span>
-                <span className="animate-ticker-glow text-term">● live</span>
+                <span className="animate-ticker-glow text-term">● {about.liveLabel}</span>
               </div>
             </div>
           </div>
@@ -67,19 +58,26 @@ export default function About() {
         <div ref={textRef} className={`reveal lg:col-span-7 ${textIn ? "is-in" : ""}`}>
           <div className="space-y-5 text-[15px] leading-relaxed text-mist/90">
             <p>
-              Halo! Saya <span className="font-semibold text-snow">{profile.name}</span>, siswa{" "}
-              <span className="font-semibold text-snow">{profile.major}</span> di{" "}
-              <span className="font-semibold text-snow">{profile.university}</span>.
+              {about.introGreeting}
+              <span className="font-semibold text-snow">{profile.name}</span>
+              {about.introStudentOf}
+              <span className="font-semibold text-snow">{profile.major}</span>
+              {about.introAt}
+              <span className="font-semibold text-snow">{profile.university}</span>
+              {about.introEnd}
             </p>
             <p>
-              Sekarang fokus saya di <span className="font-semibold text-snow">desktop app development dan web</span>,
-              dengan hobi sampingan ngoprek server, otomasi pakai bash/ssh, dan sesekali nyemplung ke machine learning.
-              Saya percaya programmer yang baik itu <span className="text-solar">paham komputer dari bawah</span>,
-              dari cara memori bekerja sampai kenapa DNS selalu jadi tersangka utama.
+              {about.p2a}
+              <span className="font-semibold text-snow">{about.p2highlight1}</span>
+              {about.p2b}
+              <span className="text-solar">{about.p2highlight2}</span>
+              {about.p2c}
             </p>
             <p>
-              Di luar layar: ngopi di angkringan, nonton anime <span className="text-fog">(Wibu akut btw)</span>, dan jadi tempat servis laptop
-              gratis bagi seluruh keluarga besar. <span className="text-fog">(iya, itu juga skill.)</span>
+              {about.p3a}
+              <span className="text-fog">{about.p3highlight1}</span>
+              {about.p3b}
+              <span className="text-fog">{about.p3highlight2}</span>
             </p>
           </div>
 
@@ -89,11 +87,11 @@ export default function About() {
               <span className="h-2.5 w-2.5 rounded-full bg-blush/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-solar/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-term/70" />
-              <span className="ml-2 font-mono text-[11px] text-fog">spesifikasi.txt (neovim)</span>
+              <span className="ml-2 font-mono text-[11px] text-fog">{about.specsFileLabel}</span>
             </div>
             <dl className="px-5 py-4 font-mono text-[12.5px] leading-[2.05]">
               <div className="text-fog">
-                <span className="text-term">$</span> cat spesifikasi.txt
+                <span className="text-term">$</span> {about.specsCommand.replace(/^\$\s*/, "")}
               </div>
               {specs.map((s) => (
                 <div key={s.key} className="flex flex-col gap-0 sm:flex-row sm:gap-0">
@@ -109,7 +107,7 @@ export default function About() {
 
           {/* prinsip */}
           <ul className="mt-9 space-y-3">
-            {principles.map((p) => (
+            {about.principles.map((p) => (
               <li key={p} className="group flex items-start gap-3 text-[14px] text-mist/85">
                 <span className="mt-0.5 text-term transition-transform duration-200 group-hover:translate-x-1">
                   <CheckIcon className="h-4 w-4" />

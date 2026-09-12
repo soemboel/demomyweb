@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { profile, socials } from "../data";
+import { useLanguage } from "../i18n/LanguageContext";
 import { useReducedMotion, useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { ArrowUpRight, CopyIcon, GithubIcon, InstagramIcon, LinkedinIcon, MailIcon } from "./icons";
@@ -18,6 +18,8 @@ const socialIcon = (name: string) => {
 };
 
 export default function Contact() {
+  const { t } = useLanguage();
+  const { profile, socials, contactUI } = t;
   const reduced = useReducedMotion();
   const { ref, visible } = useReveal<HTMLDivElement>(0.08);
   const [name, setName] = useState("");
@@ -38,13 +40,12 @@ export default function Contact() {
     }
   };
 
-  // Validate fields and return error message or null
   const validate = (): string | null => {
-    if (!name.trim()) return "Nama tidak boleh kosong.";
+    if (!name.trim()) return contactUI.validation.nameRequired;
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))
-      return "Email tidak valid.";
+      return contactUI.validation.emailInvalid;
     if (!message.trim() || message.trim().length < 5)
-      return "Pesan terlalu pendek.";
+      return contactUI.validation.messageTooShort;
     return null;
   };
 
@@ -59,18 +60,13 @@ export default function Contact() {
     }
     setValidationError(null);
 
-    const firstName = name.trim().split(" ")[0] || "kawan";
+    const firstName = name.trim().split(" ")[0] || contactUI.fallbackName;
 
-    // Steps: [label, ok]
-    const steps: [string, boolean][] = [
-      ["memvalidasi input", true],
-      ["membuka koneksi aman", true],
-      ["mengirim pesan", true],
-    ];
+    const steps: [string, boolean][] = contactUI.steps.map((label) => [label, true]);
     const suffix = [
       "",
-      `Terima kasih, ${firstName}! Pesanmu sudah masuk.`,
-      "// saya biasanya membalas < 24 jam (kecuali lagi sibuk).",
+      `${contactUI.thanksPrefix}${firstName}${contactUI.thanksSuffix}`,
+      contactUI.replyNote,
     ];
 
     if (reduced) {
@@ -138,30 +134,26 @@ export default function Contact() {
   return (
     <section id="kontak" className="relative scroll-mt-24 border-t border-line bg-ink-900/40">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
-        <SectionHeader
-          index="06"
-          cmd="$ ./hubungi-saya.sh"
-          title="Mari Bikin Sesuatu"
-          sub="// magang, proyek bareng, atau sekadar diskusi soal kenapa printer selalu error."
-        />
+        <SectionHeader index="06" cmd={contactUI.sectionCmd} title={contactUI.sectionTitle} sub={contactUI.sectionSub} />
 
         <div ref={ref} className="grid gap-12 lg:grid-cols-12">
           {/* kiri: info */}
           <div className={`reveal lg:col-span-5 ${visible ? "is-in" : ""}`}>
             <p className="text-[15px] leading-relaxed text-mist/85">
-              Cara tercepat menghubungi saya: <span className="text-term">whatsapp</span>. Semua pesan saya baca.
-              Bahkan yang isinya cuma "bro, laptopku kena virus".
+              {contactUI.introBefore}
+              <span className="text-term">{contactUI.introHighlight}</span>
+              {contactUI.introAfter}
             </p>
 
             <div className="mt-8 border border-line bg-ink-900/80">
               <div className="flex items-center justify-between border-b border-line bg-ink-850 px-4 py-2.5">
-                <span className="font-mono text-[11px] text-fog">alamat_email.txt</span>
+                <span className="font-mono text-[11px] text-fog">{contactUI.emailFileLabel}</span>
                 <button
                   onClick={copyEmail}
                   className="flex items-center gap-1.5 font-mono text-[11px] text-term transition-colors hover:text-snow"
                 >
                   <CopyIcon className="h-3.5 w-3.5" />
-                  {copied ? "tersalin!" : "salin"}
+                  {copied ? contactUI.copiedLabel : contactUI.copyLabel}
                 </button>
               </div>
               <a
@@ -200,11 +192,11 @@ export default function Contact() {
             </ul>
 
             <div className="mt-8 border border-dashed border-line p-5 font-mono text-[12px] leading-relaxed text-fog">
-              <span className="text-term">$</span> cat ketersediaan.txt
+              <span className="text-term">$</span> {contactUI.availabilityCmd.replace(/^\$\s*/, "")}
               <br />
-              <span className="text-mist/80">→ kegiatan: akhir pekan, proyek kecil-menengah, dan berlibur</span>
+              <span className="text-mist/80">{contactUI.availabilityActivity}</span>
               <br />
-              <span className="text-mist/80">→ zona waktu: WIB (UTC+7), sering online malam</span>
+              <span className="text-mist/80">{contactUI.availabilityTimezone}</span>
             </div>
           </div>
 
@@ -215,7 +207,7 @@ export default function Contact() {
                 <span className="h-3 w-3 rounded-full bg-blush/80" />
                 <span className="h-3 w-3 rounded-full bg-solar/80" />
                 <span className="h-3 w-3 rounded-full bg-term/80" />
-                <span className="ml-3 font-mono text-[11px] tracking-wide text-fog">kirim-pesan.sh (executable)</span>
+                <span className="ml-3 font-mono text-[11px] tracking-wide text-fog">{contactUI.formFileLabel}</span>
                 <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.2em] text-fog/60">bash</span>
               </div>
 
@@ -224,27 +216,27 @@ export default function Contact() {
                   <div className="grid gap-6 sm:grid-cols-2">
                     <label className="block">
                       <span className="font-mono text-[12px] text-fog">
-                        <span className="text-term">$</span> read -p "nama"
+                        <span className="text-term">$</span> {contactUI.namePrompt}
                       </span>
                       <input
                         type="text"
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Ada Lovelace"
+                        placeholder={contactUI.namePlaceholder}
                         className="mt-2 w-full border-b border-line bg-transparent px-1 py-2 font-mono text-[14px] text-snow outline-none transition-colors duration-200 placeholder:text-fog/40 focus:border-term"
                       />
                     </label>
                     <label className="block">
                       <span className="font-mono text-[12px] text-fog">
-                        <span className="text-term">$</span> read -p "email"
+                        <span className="text-term">$</span> {contactUI.emailPrompt}
                       </span>
                       <input
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="ada@analytical.engine"
+                        placeholder={contactUI.emailPlaceholder}
                         className="mt-2 w-full border-b border-line bg-transparent px-1 py-2 font-mono text-[14px] text-snow outline-none transition-colors duration-200 placeholder:text-fog/40 focus:border-term"
                       />
                     </label>
@@ -252,14 +244,14 @@ export default function Contact() {
 
                   <label className="block">
                     <span className="font-mono text-[12px] text-fog">
-                      <span className="text-term">$</span> cat pesan.txt
+                      <span className="text-term">$</span> {contactUI.messagePrompt}
                     </span>
                     <textarea
                       required
                       rows={5}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Halo Habiby, saya mau ngajak kolaborasi proyek..."
+                      placeholder={contactUI.messagePlaceholder}
                       className="mt-2 w-full resize-none border-b border-line bg-transparent px-1 py-2 font-mono text-[14px] leading-relaxed text-snow outline-none transition-colors duration-200 placeholder:text-fog/40 focus:border-term"
                     />
                   </label>
@@ -268,7 +260,7 @@ export default function Contact() {
                     <p className="font-mono text-[11px] text-fog/60">
                       {validationError
                         ? <span className="text-blush">{`// Error: ${validationError}`}</span>
-                        : "// Mohon di isi dengan benar"}
+                        : contactUI.helperText}
                     </p>
                     <button
                       type="submit"
@@ -276,7 +268,7 @@ export default function Contact() {
                       className="group flex items-center gap-2.5 border border-term/50 bg-ink-850 px-6 py-3 font-mono text-[13px] font-medium text-term hover:bg-term/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                     >
                       <span className="text-term">▶</span>
-                      {phase === "sending" ? "mengirim..." : "./kirim --pesan"}
+                      {phase === "sending" ? contactUI.sendingLabel : contactUI.sendLabel}
                     </button>
                   </div>
 
@@ -284,7 +276,7 @@ export default function Contact() {
                     <div className="border-t border-line/70 pt-4 font-mono text-[12.5px] leading-relaxed">
                       {outLines.map((l, i) => (
                         <div key={i} className={l.startsWith(">") ? "text-term/90" : l.startsWith("//") ? "text-fog/70" : "text-snow"}>
-                          {l || "\u00A0"}
+                          {l || " "}
                         </div>
                       ))}
                     </div>
@@ -295,7 +287,7 @@ export default function Contact() {
                 <div className="p-6 font-mono text-[13px] leading-[1.9] sm:p-8">
                   {outLines.map((l, i) => (
                     <div key={i} className={l.startsWith(">") ? "text-term/90" : l.startsWith("//") ? "text-fog/70" : "text-snow"}>
-                      {l || "\u00A0"}
+                      {l || " "}
                     </div>
                   ))}
                   <div className="mt-6 flex items-center gap-2">
@@ -309,7 +301,7 @@ export default function Contact() {
                     onClick={reset}
                     className="mt-6 border border-term/40 px-4 py-2 text-[12px] text-term transition-all duration-200 hover:-translate-y-0.5 hover:bg-term/10"
                   >
-                    $ kirim pesan lain
+                    {contactUI.resetLabel}
                   </button>
                 </div>
               )}

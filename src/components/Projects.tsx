@@ -1,4 +1,4 @@
-import { projects } from "../data";
+import { useLanguage } from "../i18n/LanguageContext";
 import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { ArrowUpRight, BranchIcon, FolderIcon, GithubIcon, StarIcon } from "./icons";
@@ -10,6 +10,8 @@ const accentMap = {
 } as const;
 
 export default function Projects() {
+  const { t } = useLanguage();
+  const { projects, projectsUI } = t;
   const { ref, visible } = useReveal<HTMLDivElement>(0.08);
   const featured = projects.find((p) => p.featured)!;
   const rest = projects.filter((p) => !p.featured);
@@ -18,9 +20,9 @@ export default function Projects() {
     <section id="proyek" className="relative mx-auto max-w-6xl scroll-mt-24 px-5 py-24 sm:px-8 sm:py-28">
       <SectionHeader
         index="03"
-        cmd="$ ls -la ~/proyek | wc -l"
-        title="Proyek Pilihan"
-        sub={`// ${projects.length} repositori terpilih dari ${"±"}40 commit-an tengah malam lainnya.`}
+        cmd={projectsUI.sectionCmd}
+        title={projectsUI.sectionTitle}
+        sub={`${projectsUI.subBefore}${projects.length}${projectsUI.subAfter}`}
       />
 
       <div ref={ref}>
@@ -33,13 +35,13 @@ export default function Projects() {
           <div className="relative min-h-[240px] overflow-hidden border-b border-line lg:border-b-0 lg:border-r">
             <img
               src={featured.image}
-              alt={`Preview proyek ${featured.title}`}
+              alt={`${featured.title} preview`}
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.06]"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/25 to-transparent" />
             <span className="absolute left-4 top-4 border border-term/50 bg-ink-950/85 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.2em] text-term">
-              ★ proyek unggulan
+              {projectsUI.featuredBadge}
             </span>
             <span className="absolute bottom-4 left-4 font-mono text-[11px] text-mist/80">
               {featured.tagline} · {featured.year}
@@ -56,9 +58,9 @@ export default function Projects() {
             <p className="mt-4 text-[14.5px] leading-relaxed text-mist/85">{featured.desc}</p>
 
             <div className="mt-6 flex flex-wrap gap-2">
-              {featured.tags.map((t) => (
-                <span key={t} className="border border-term/30 bg-term/5 px-3 py-1 font-mono text-[11.5px] text-term/90">
-                  {t}
+              {featured.tags.map((tag) => (
+                <span key={tag} className="border border-term/30 bg-term/5 px-3 py-1 font-mono text-[11.5px] text-term/90">
+                  {tag}
                 </span>
               ))}
             </div>
@@ -70,7 +72,7 @@ export default function Projects() {
                 rel="noreferrer"
                 className="flex items-center gap-2 border border-line px-4 py-2.5 font-mono text-[12.5px] text-mist transition-all duration-200 hover:-translate-y-0.5 hover:border-term/50 hover:text-term"
               >
-                <GithubIcon className="h-4 w-4" /> source code
+                <GithubIcon className="h-4 w-4" /> {projectsUI.sourceCode}
               </a>
               {featured.demo && (
                 <a
@@ -79,7 +81,7 @@ export default function Projects() {
                   rel="noreferrer"
                   className="group/demo flex items-center gap-2 bg-term px-4 py-2.5 font-mono text-[12.5px] font-medium text-ink-950 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_28px_-10px_rgba(92,232,164,0.7)]"
                 >
-                  live demo
+                  {projectsUI.liveDemo}
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover/demo:translate-x-0.5 group-hover/demo:-translate-y-0.5" />
                 </a>
               )}
@@ -143,16 +145,16 @@ export default function Projects() {
                 <p className="mt-2.5 text-[13.5px] leading-relaxed text-mist/80">{p.desc}</p>
 
                 <div className="mt-5 flex flex-wrap gap-2 pt-1">
-                  {p.tags.map((t) => (
-                    <span key={t} className={`border bg-ink-950/50 px-2.5 py-0.5 font-mono text-[10.5px] ${accent.tag}`}>
-                      {t}
+                  {p.tags.map((tag) => (
+                    <span key={tag} className={`border bg-ink-950/50 px-2.5 py-0.5 font-mono text-[10.5px] ${accent.tag}`}>
+                      {tag}
                     </span>
                   ))}
                 </div>
 
                 <div className="mt-5 flex items-center justify-between border-t border-line/70 pt-4 font-mono text-[11px] text-fog/70">
                   <span>
-                    status: <span className={accent.text}>{p.status}</span>
+                    {projectsUI.statusLabel} <span className={accent.text}>{p.status}</span>
                   </span>
                   <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     ~/proyek/{p.id} <span className="cursor-blink text-term">▍</span>
@@ -164,14 +166,14 @@ export default function Projects() {
         </div>
 
         <p className="mt-10 text-center font-mono text-[12.5px] text-fog">
-          <span className="text-term">$</span> git clone proyek-lainnya{" "}
+          <span className="text-term">$</span> {projectsUI.cloneCmd}{" "}
           <a
             href="https://github.com"
             target="_blank"
             rel="noreferrer"
             className="border-b border-term/40 text-term transition-colors hover:bg-term/10"
           >
-            → lihat semua di GitHub
+            {projectsUI.cloneCta}
           </a>
         </p>
       </div>

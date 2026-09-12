@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { profile, projects, skillGroups, socials } from "../data";
+import { useLanguage } from "../i18n/LanguageContext";
+import type { Content } from "../locales/types";
 import { useReducedMotion } from "../hooks";
 
 type Line = { kind: "cmd" | "out" | "ok" | "warn" | "err" | "accent"; text: string };
@@ -13,40 +14,17 @@ const lineClass: Record<Line["kind"], string> = {
   accent: "text-aqua",
 };
 
-const NEOFETCH = [
-  "   ██╗  ██╗        habiby@smkn5-batam",
-  "   ██║  ██║        ───────────────────────",
-  "   ███████║        OS       : Debian/Ubuntu",
-  "   ██╔══██║        Host     : Laptop + PC Bekas",
-  "   ██║  ██║        Kernel   : 6.x.0-generic",
-  "   ╚═╝  ╚═╝        Uptime   : Semester 6, masih kuat",
-  "                   Shell    : bash (karena kebiasa linux)",
-  "                   Editor   : VScode, Visual Studio",
-  "                   Status   : [idle] bersantai",
-];
-
-const HELP: string[] = [
-  "Perintah yang tersedia:",
-  "  whoami      siapa saya, singkat saja",
-  "  skills      daftar kemampuan teknis",
-  "  proyek      proyek yang pernah saya kerjakan",
-  "  kontak      cara paling cepat menghubungi saya",
-  "  sosial      tautan media sosial",
-  "  neofetch    info sistem (wajib dicoba)",
-  "  tanggal     jam berapa sekarang?",
-  "  clear       bersihkan layar",
-];
-
-function runCommand(raw: string): Line[] {
+function runCommand(raw: string, t: Content): Line[] {
+  const { profile, projects, skillGroups, socials, terminal } = t;
   const [cmd, ...rest] = raw.trim().toLowerCase().split(/\s+/);
   switch (cmd) {
     case "help":
     case "bantuan":
-      return [{ kind: "accent", text: HELP.join("\n") }];
+      return [{ kind: "accent", text: terminal.help.join("\n") }];
     case "whoami":
       return [
         { kind: "out", text: `${profile.name}, ${profile.role}, ${profile.university}.` },
-        { kind: "out", text: "Suka ngulik sistem, mecahin bug jam 2 pagi, dan ngopi." },
+        { kind: "out", text: terminal.whoamiLine2 },
       ];
     case "skills":
     case "skill": {
@@ -68,55 +46,51 @@ function runCommand(raw: string): Line[] {
     case "kontak":
     case "contact":
       return [
-        { kind: "out", text: `email  : ${profile.email}` },
-        { kind: "out", text: "github : github.com/soemboel" },
-        { kind: "out", text: "respon : biasanya < 24 jam (kecuali lagi ngerjain tugas)" },
+        { kind: "out", text: `${terminal.contact.emailLabel}${profile.email}` },
+        { kind: "out", text: terminal.contact.githubLabel },
+        { kind: "out", text: terminal.contact.responseLabel },
       ];
     case "sosial":
     case "social":
       return socials.map((s) => ({ kind: "out", text: `  ${s.name.padEnd(11, " ")} ${s.handle}` }));
 
     case "neofetch":
-      return [{ kind: "accent", text: NEOFETCH.join("\n") }];
+      return [{ kind: "accent", text: terminal.neofetch.join("\n") }];
     case "tanggal":
     case "date":
-      return [{ kind: "out", text: new Date().toLocaleString("id-ID", { dateStyle: "full", timeStyle: "medium" }) }];
+      return [{ kind: "out", text: new Date().toLocaleString(terminal.dateLocale, { dateStyle: "full", timeStyle: "medium" }) }];
     case "sudo":
       return [
-        { kind: "err", text: `${profile.handle} tidak ada di berkas sudoers. Insiden ini akan dilaporkan.` },
-        { kind: "out", text: "// santai, bercanda. Ketik 'help' saja." },
+        { kind: "err", text: terminal.sudoTemplate.replace("{handle}", profile.handle) },
+        { kind: "out", text: terminal.sudoNote },
       ];
     case "rm":
       if (rest.includes("-rf") && rest.includes("/"))
-        return [{ kind: "err", text: "Nice try. Backup dulu, baru hapus. (ini sandbox, tenang)" }];
-      return [{ kind: "err", text: `rm: argumen tidak lengkap. Dan jangan sembarangan.` }];
+        return [{ kind: "err", text: terminal.rmSandbox }];
+      return [{ kind: "err", text: terminal.rmIncomplete }];
     case "vim":
     case "vi":
-      return [{ kind: "warn", text: "Kamu masuk. Tapi belum tentu bisa keluar." }];
+      return [{ kind: "warn", text: terminal.vimMessage }];
     case "exit":
     case "quit":
-      return [{ kind: "out", text: "Sampai jumpa! (tombol close-nya di pojok kanan atas)" }];
+      return [{ kind: "out", text: terminal.exitMessage }];
     case "":
       return [];
     default:
       return [
-        { kind: "err", text: `zsh: command not found: ${cmd}` },
-        { kind: "out", text: "// coba ketik 'help' untuk lihat perintah" },
+        { kind: "err", text: terminal.notFoundTemplate.replace("{cmd}", cmd) },
+        { kind: "out", text: terminal.tryHelpNote },
       ];
   }
 }
 
 type BootStep = { text: string; kind: Line["kind"]; wait: number };
 
-const BOOT: BootStep[] = [
-  { text: "$ ./boot-portfolio.sh", kind: "cmd", wait: 0 },
-  { text: "> inisialisasi portfolio v2.5.1 ....... [ OK ]", kind: "ok", wait: 420 },
-  { text: "> memuat 4 proyek terpilih ............ [ OK ]", kind: "ok", wait: 900 },
-  { text: "> memeriksa status .................... [ IDLE - BERSANTAI ]", kind: "warn", wait: 1400 },
-  { text: "> sistem siap. Ketik 'help' untuk mulai, atau klik chip di bawah.", kind: "out", wait: 1950 },
-];
+const BOOT_WAITS = [0, 420, 900, 1400, 1950];
 
 export default function Terminal() {
+  const { t } = useLanguage();
+  const { profile, terminal } = t;
   const reduced = useReducedMotion();
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState("");
@@ -127,7 +101,16 @@ export default function Terminal() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const BOOT: BootStep[] = terminal.boot.map((step, i) => ({
+    text: step.text,
+    kind: step.kind,
+    wait: BOOT_WAITS[i] ?? BOOT_WAITS[BOOT_WAITS.length - 1],
+  }));
+
   useEffect(() => {
+    setLines([]);
+    setBooted(false);
+
     if (reduced) {
       setLines(BOOT.map((b) => ({ text: b.text, kind: b.kind })));
       setBooted(true);
@@ -143,7 +126,8 @@ export default function Terminal() {
       timers.forEach(clearTimeout);
       clearTimeout(done);
     };
-  }, [reduced]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduced, terminal]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -160,14 +144,14 @@ export default function Terminal() {
         setHistIdx(-1);
         return;
       }
-      const output = runCommand(value);
+      const output = runCommand(value, t);
       setLines((prev) => [...prev, cmdLine, ...output]);
       if (value) {
         setHistory((h) => [...h, value]);
       }
       setHistIdx(-1);
     },
-    []
+    [t]
   );
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -205,9 +189,9 @@ export default function Terminal() {
         <span className="h-3 w-3 rounded-full bg-solar/80" />
         <span className="h-3 w-3 rounded-full bg-term/80" />
         <span className="ml-3 font-mono text-[11px] tracking-wide text-fog">
-          {profile.handle}@portfolio: ~/beranda
+          {profile.handle}@portfolio: {terminal.pathHome}
         </span>
-        <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.2em] text-fog/60">zsh</span>
+        <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.2em] text-fog/60">{terminal.shellLabel}</span>
       </div>
 
       {/* output */}
@@ -236,7 +220,7 @@ export default function Terminal() {
               className="min-w-0 flex-1 border-none bg-transparent font-mono text-[12.5px] text-snow outline-none caret-term sm:text-[13px]"
               spellCheck={false}
               autoComplete="off"
-              aria-label="Terminal input (ketik perintah, misalnya help)"
+              aria-label={terminal.inputAriaLabel}
               placeholder={!focused ? "" : ""}
             />
             <span className={`cursor-blink font-mono text-term ${focused ? "hidden" : ""}`}>▍</span>
@@ -246,8 +230,8 @@ export default function Terminal() {
 
       {/* quick chips */}
       <div className="flex flex-wrap items-center gap-2 border-t border-line bg-ink-850/70 px-4 py-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-fog/60">coba:</span>
-        {["whoami", "skills", "neofetch", "proyek", "help"].map((c) => (
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-fog/60">{terminal.chipsLabel}</span>
+        {terminal.chips.map((c) => (
           <button
             key={c}
             onClick={(e) => {

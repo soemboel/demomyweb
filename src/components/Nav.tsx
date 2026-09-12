@@ -1,10 +1,28 @@
 import { useState } from "react";
-import { navLinks } from "../data";
 import { useScrollProgress } from "../hooks";
+import { useLanguage } from "../i18n/LanguageContext";
+
+function LanguageToggle({ className = "" }: { className?: string }) {
+  const { language, toggleLanguage } = useLanguage();
+  const nextLabel = language === "id" ? "EN" : "ID";
+  const ariaLabel = language === "id" ? "Switch language to English" : "Ganti bahasa ke Indonesia";
+
+  return (
+    <button
+      type="button"
+      onClick={toggleLanguage}
+      aria-label={ariaLabel}
+      className={`border border-term/40 bg-term/5 px-4 py-1.5 font-mono text-[12px] text-term transition-all duration-200 hover:-translate-y-0.5 hover:bg-term/15 hover:shadow-[0_6px_24px_-8px_rgba(92,232,164,0.5)] ${className}`}
+    >
+      [ {nextLabel} ]
+    </button>
+  );
+}
 
 export default function Nav() {
   const progress = useScrollProgress();
   const [open, setOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line/70 bg-ink-950/85 backdrop-blur-md">
@@ -16,15 +34,28 @@ export default function Nav() {
       />
 
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
-        <a href="#beranda" className="group flex items-center gap-2 font-mono text-sm text-snow">
-          <span className="text-term transition-transform duration-300 group-hover:translate-x-0.5">❯_</span>
-          <span>
-            habiby<span className="text-fog">.dev</span>
-          </span>
-        </a>
+        <div className="flex items-center gap-3">
+          <button
+            className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] border border-line md:hidden"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={t.nav.openMenuAria}
+            aria-expanded={open}
+          >
+            <span className={`h-[2px] w-4 bg-term transition-transform duration-300 ${open ? "translate-y-[7px] rotate-45" : ""}`} />
+            <span className={`h-[2px] w-4 bg-term transition-opacity duration-300 ${open ? "opacity-0" : ""}`} />
+            <span className={`h-[2px] w-4 bg-term transition-transform duration-300 ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
+          </button>
+
+          <a href="#beranda" className="group flex items-center gap-2 font-mono text-sm text-snow">
+            <span className="text-term transition-transform duration-300 group-hover:translate-x-0.5">❯_</span>
+            <span>
+              habiby<span className="text-fog">.dev</span>
+            </span>
+          </a>
+        </div>
 
         <ul className="hidden items-center gap-7 md:flex">
-          {navLinks.map((l, i) => (
+          {t.navLinks.map((l, i) => (
             <li key={l.id}>
               <a
                 href={`#${l.id}`}
@@ -36,25 +67,11 @@ export default function Nav() {
             </li>
           ))}
           <li>
-            <a
-              href="#kontak"
-              className="border border-term/40 bg-term/5 px-4 py-1.5 font-mono text-[12px] text-term transition-all duration-200 hover:-translate-y-0.5 hover:bg-term/15 hover:shadow-[0_6px_24px_-8px_rgba(92,232,164,0.5)]"
-            >
-              [ hire me ]
-            </a>
+            <LanguageToggle />
           </li>
         </ul>
 
-        <button
-          className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] border border-line md:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Buka menu navigasi"
-          aria-expanded={open}
-        >
-          <span className={`h-[2px] w-4 bg-term transition-transform duration-300 ${open ? "translate-y-[7px] rotate-45" : ""}`} />
-          <span className={`h-[2px] w-4 bg-term transition-opacity duration-300 ${open ? "opacity-0" : ""}`} />
-          <span className={`h-[2px] w-4 bg-term transition-transform duration-300 ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
-        </button>
+        <LanguageToggle className="md:hidden" />
       </nav>
 
       {/* mobile menu */}
@@ -64,7 +81,7 @@ export default function Nav() {
         }`}
       >
         <ul className="space-y-1 px-5 py-4">
-          {navLinks.map((l, i) => (
+          {t.navLinks.map((l, i) => (
             <li key={l.id}>
               <a
                 href={`#${l.id}`}
