@@ -3,6 +3,7 @@ import { useLanguage } from "../i18n/LanguageContext";
 import { useReveal, useScramble } from "../hooks";
 import { ArrowUpRight, GithubIcon, GraduationIcon, InstagramIcon, LinkedinIcon, MailIcon, PinIcon } from "./icons";
 import Terminal from "./Terminal";
+import CrabSidebar from "./CrabWalk";
 
 const socialIcon = (name: string) => {
   switch (name) {
@@ -33,6 +34,7 @@ export default function Hero() {
 
   return (
     <section id="beranda" className="relative overflow-hidden pt-28 sm:pt-36">
+      <CrabSidebar />
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-10">
           {/* kiri: identitas */}

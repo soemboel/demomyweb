@@ -8,6 +8,7 @@ import Timeline from "./components/Timeline";
 import Certifications from "./components/Certifications";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import CrabMobile from "./components/CrabMobile";
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
       </main>
 
       <div className="relative z-10">
+        <CrabMobile />
         <Footer />
       </div>
     </div>

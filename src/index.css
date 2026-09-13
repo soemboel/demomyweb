@@ -164,6 +164,117 @@ body {
   animation: ticker-glow 3.4s ease-in-out infinite;
 }
 
+/* ---------- crab walk easter egg ---------- */
+
+.crab-floor-line {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 1px;
+  background-image: repeating-linear-gradient(to right, var(--color-line) 0 6px, transparent 6px 13px);
+}
+
+.crab {
+  height: 26px;
+  cursor: pointer;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.crab-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: crab-idle-bob 2.4s ease-in-out infinite;
+}
+
+.crab-body {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 0;
+  height: 16px;
+  background: var(--crab-color);
+  border-radius: 3px;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.crab-eye {
+  position: absolute;
+  top: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  background: #0b0f16;
+}
+.crab-eye-left {
+  left: 8px;
+}
+.crab-eye-right {
+  right: 8px;
+}
+
+.crab-claw {
+  position: absolute;
+  top: 5px;
+  width: 7px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--crab-color);
+  filter: brightness(0.8);
+}
+.crab-claw-left {
+  left: -5px;
+}
+.crab-claw-right {
+  right: -5px;
+}
+
+.crab-legs {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.crab-leg {
+  width: 3px;
+  height: 8px;
+  border-radius: 0 0 2px 2px;
+  background: var(--crab-color);
+  filter: brightness(0.75);
+  transition: transform 0.12s ease;
+}
+.crab[data-frame="0"] .crab-leg:nth-child(odd) {
+  transform: translateY(-2px);
+}
+.crab[data-frame="1"] .crab-leg:nth-child(even) {
+  transform: translateY(-2px);
+}
+
+.crab-trail-dash {
+  position: absolute;
+  bottom: 2px;
+  width: 6px;
+  height: 2px;
+  border-radius: 1px;
+  opacity: 0.55;
+  animation: crab-trail-fade 700ms ease-out forwards;
+}
+
+@keyframes crab-idle-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+
+@keyframes crab-trail-fade {
+  0% { opacity: 0.55; transform: scaleX(1) translateY(0); }
+  100% { opacity: 0; transform: scaleX(0.3) translateY(3px); }
+}
+
 /* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
