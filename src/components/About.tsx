@@ -24,11 +24,9 @@ export default function About() {
       <SectionHeader index="01" cmd={about.sectionCmd} title={about.sectionTitle} />
 
       <div className="grid gap-12 lg:grid-cols-12">
-        {/* foto: sticky di desktop */}
         <div className="lg:col-span-5">
           <div ref={imgRef} className={`reveal lg:sticky lg:top-28 ${imgIn ? "is-in" : ""}`}>
             <div className="group relative border border-line bg-ink-900 p-3">
-              {/* corner brackets */}
               <span className="absolute -left-px -top-px h-5 w-5 border-l-2 border-t-2 border-term transition-all duration-300 group-hover:h-8 group-hover:w-8" />
               <span className="absolute -right-px -top-px h-5 w-5 border-r-2 border-t-2 border-term transition-all duration-300 group-hover:h-8 group-hover:w-8" />
               <span className="absolute -bottom-px -left-px h-5 w-5 border-b-2 border-l-2 border-term transition-all duration-300 group-hover:h-8 group-hover:w-8" />
@@ -54,7 +52,6 @@ export default function About() {
           </div>
         </div>
 
-        {/* narasi + spesifikasi */}
         <div ref={textRef} className={`reveal lg:col-span-7 ${textIn ? "is-in" : ""}`}>
           <div className="space-y-5 text-[15px] leading-relaxed text-mist/90">
             <p>
@@ -81,7 +78,6 @@ export default function About() {
             </p>
           </div>
 
-          {/* spesifikasi ala sistem */}
           <div className="mt-9 border border-line bg-ink-900/80">
             <div className="flex items-center gap-2 border-b border-line bg-ink-850 px-4 py-2.5">
               <span className="h-2.5 w-2.5 rounded-full bg-blush/70" />
@@ -105,7 +101,6 @@ export default function About() {
             </dl>
           </div>
 
-          {/* prinsip */}
           <ul className="mt-9 space-y-3">
             {about.principles.map((p) => (
               <li key={p} className="group flex items-start gap-3 text-[14px] text-mist/85">

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-/** Deteksi preferensi reduced-motion pengguna. */
 export function useReducedMotion(): boolean {
   const [reduced, setReduced] = useState<boolean>(() =>
     typeof window !== "undefined"
@@ -16,7 +15,6 @@ export function useReducedMotion(): boolean {
   return reduced;
 }
 
-/** IntersectionObserver sederhana: kembalikan ref + status terlihat. */
 export function useReveal<T extends HTMLElement>(threshold = 0.15) {
   const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
@@ -46,7 +44,6 @@ export function useReveal<T extends HTMLElement>(threshold = 0.15) {
 
 const GLYPHS = "!<>-_\\/[]{}=+*^?#%&@$";
 
-/** Efek scramble-decode untuk teks, langsung final bila reduced-motion. */
 export function useScramble(target: string, start: boolean, delay = 0): string {
   const reduced = useReducedMotion();
   const [out, setOut] = useState<string>(reduced ? target : "");
@@ -89,7 +86,6 @@ export function useScramble(target: string, start: boolean, delay = 0): string {
   return out;
 }
 
-/** Jam digital yang berdetak. */
 export function useClock(locale = "id-ID", timeZone = "Asia/Jakarta"): string {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
@@ -109,7 +105,6 @@ export function useClock(locale = "id-ID", timeZone = "Asia/Jakarta"): string {
   }
 }
 
-/** Progress scroll halaman 0..1. */
 export function useScrollProgress(): number {
   const [progress, setProgress] = useState(0);
   useEffect(() => {

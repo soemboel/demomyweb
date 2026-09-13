@@ -126,7 +126,6 @@ export default function Terminal() {
       timers.forEach(clearTimeout);
       clearTimeout(done);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced, terminal]);
 
   useEffect(() => {
@@ -183,7 +182,6 @@ export default function Terminal() {
       className="group relative flex flex-col border border-line bg-ink-900/90 shadow-[0_24px_70px_-28px_rgba(0,0,0,0.85)] transition-colors duration-300 hover:border-ink-600"
       onClick={() => inputRef.current?.focus()}
     >
-      {/* chrome bar */}
       <div className="flex items-center gap-2 border-b border-line bg-ink-850 px-4 py-2.5">
         <span className="h-3 w-3 rounded-full bg-blush/80" />
         <span className="h-3 w-3 rounded-full bg-solar/80" />
@@ -194,7 +192,6 @@ export default function Terminal() {
         <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.2em] text-fog/60">{terminal.shellLabel}</span>
       </div>
 
-      {/* output */}
       <div ref={scrollRef} className="h-[340px] overflow-y-auto px-4 py-4 font-mono text-[12.5px] leading-[1.75] sm:h-[360px] sm:text-[13px]">
         {lines.map((line, i) => (
           <div key={i} className={`whitespace-pre-wrap ${lineClass[line.kind]}`}>
@@ -228,7 +225,6 @@ export default function Terminal() {
         )}
       </div>
 
-      {/* quick chips */}
       <div className="flex flex-wrap items-center gap-2 border-t border-line bg-ink-850/70 px-4 py-3">
         <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-fog/60">{terminal.chipsLabel}</span>
         {terminal.chips.map((c) => (

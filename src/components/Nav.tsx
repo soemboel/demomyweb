@@ -26,7 +26,6 @@ export default function Nav() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line/70 bg-ink-950/85 backdrop-blur-md">
-      {/* scroll progress */}
       <div
         className="absolute left-0 top-0 h-[2px] bg-term shadow-[0_0_12px_rgba(92,232,164,0.8)] transition-[width] duration-150 ease-out"
         style={{ width: `${progress * 100}%` }}
@@ -74,7 +73,6 @@ export default function Nav() {
         <LanguageToggle className="md:hidden" />
       </nav>
 
-      {/* mobile menu */}
       <div
         className={`overflow-hidden border-line/70 bg-ink-900/95 transition-all duration-300 md:hidden ${
           open ? "max-h-80 border-b" : "max-h-0"

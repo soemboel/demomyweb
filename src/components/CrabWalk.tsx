@@ -3,10 +3,10 @@ import { useLanguage } from "../i18n/LanguageContext";
 import { useReducedMotion } from "../hooks";
 
 const CRAB_WIDTH = 34;
-const SPEED = 0.55; // px per 16.7ms frame
-const STEP_DISTANCE = 7; // px of travel between leg-frame swaps
-const TRAIL_DISTANCE = 11; // px of travel between footprint dashes
-const TRAIL_LIFETIME = 700; // ms
+const SPEED = 0.55;
+const STEP_DISTANCE = 7;
+const TRAIL_DISTANCE = 11;
+const TRAIL_LIFETIME = 700;
 const JUMP_VELOCITY = 5.6;
 const GRAVITY = 0.35;
 
@@ -14,9 +14,7 @@ type CrabProps = {
   color: string;
   side: "left" | "right";
   label: string;
-  /** Let the crab roam the whole track instead of just its half (for a solo track). */
   full?: boolean;
-  /** Starting position as a 0..1 fraction of the track's own range (only used with `full`). */
   startFrac?: number;
 };
 
@@ -178,11 +176,6 @@ export function Crab({ color, side, label, full = false, startFrac }: CrabProps)
   );
 }
 
-/**
- * Decorative desktop-only side columns: a pixel-art beach strip running the
- * height of the Hero section, with one crab scuttling along the sand on
- * each edge. Hidden on smaller/mobile viewports, which only see the terminal.
- */
 export default function CrabSidebar() {
   const { language } = useLanguage();
   const blueLabel = language === "id" ? "Kepiting biru — klik untuk lompat" : "Blue crab — click to jump";

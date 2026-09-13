@@ -47,7 +47,6 @@ export default function Timeline() {
                 }`}
                 style={{ transitionDelay: visible ? `${i * 90}ms` : "0ms" }}
               >
-                {/* node */}
                 <span
                   className={`absolute -left-[7px] top-1.5 h-[13px] w-[13px] rounded-full border-[3px] border-ink-950 transition-transform duration-300 group-hover:scale-125 ${style.dot}`}
                 />
@@ -76,7 +75,6 @@ export default function Timeline() {
             );
           })}
 
-          {/* HEAD marker */}
           <div className="absolute -left-[5px] top-1.5 h-[9px] w-[9px] rounded-full bg-term shadow-[0_0_14px_rgba(92,232,164,0.9)]" />
         </div>
       </div>

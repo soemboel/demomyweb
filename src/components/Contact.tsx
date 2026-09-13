@@ -96,7 +96,6 @@ export default function Contact() {
       const loadingLine = `> ${label} ${pad} ...`;
       const resultLine = `> ${label} ${pad} [ ${ok ? "OK" : "ERR"} ]`;
 
-      //loading line
       setTimeout(() => {
         setOutLines((prev) => [...prev, loadingLine]);
       }, timeOffset);
@@ -137,7 +136,6 @@ export default function Contact() {
         <SectionHeader index="06" cmd={contactUI.sectionCmd} title={contactUI.sectionTitle} sub={contactUI.sectionSub} />
 
         <div ref={ref} className="grid gap-12 lg:grid-cols-12">
-          {/* kiri: info */}
           <div className={`reveal lg:col-span-5 ${visible ? "is-in" : ""}`}>
             <p className="text-[15px] leading-relaxed text-mist/85">
               {contactUI.introBefore}
@@ -200,7 +198,6 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* kanan: form ala shell */}
           <div className={`reveal lg:col-span-7 ${visible ? "is-in" : ""}`} style={{ transitionDelay: "140ms" }}>
             <div className="border border-line bg-ink-900 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.9)]">
               <div className="flex items-center gap-2 border-b border-line bg-ink-850 px-4 py-2.5">

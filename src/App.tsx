@@ -13,7 +13,6 @@ import CrabMobile from "./components/CrabMobile";
 export default function App() {
   return (
     <div className="scanlines relative min-h-screen overflow-x-clip bg-ink-950 text-mist">
-      {/* ambient background layers */}
       <div className="bg-grid pointer-events-none fixed inset-0 z-0" aria-hidden="true" />
       <div
         className="pointer-events-none fixed inset-0 z-0"

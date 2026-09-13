@@ -26,7 +26,6 @@ export default function Projects() {
       />
 
       <div ref={ref}>
-        {/* proyek unggulan */}
         <article
           className={`reveal group relative grid overflow-hidden border border-line bg-ink-900 transition-all duration-300 hover:border-term/40 lg:grid-cols-2 ${
             visible ? "is-in" : ""
@@ -97,7 +96,6 @@ export default function Projects() {
           </div>
         </article>
 
-        {/* proyek lain */}
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
           {rest.map((p, i) => {
             const accent = accentMap[p.accent];

@@ -37,7 +37,6 @@ export default function Hero() {
       <CrabSidebar />
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-10">
-          {/* kiri: identitas */}
           <div className="lg:col-span-6">
             <p className="font-mono text-[13px] text-term">
               <span className="text-fog">{hero.promptPath} $</span> {hero.promptCmd}
@@ -109,7 +108,6 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* kanan: terminal interaktif */}
           <div className="animate-floaty lg:col-span-6 lg:mt-2">
             <Terminal />
             <p className="mt-3 text-right font-mono text-[11px] text-fog/50">
@@ -118,7 +116,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* statistik */}
         <div
           ref={statsRef}
           className={`reveal mt-16 grid grid-cols-1 border border-line bg-ink-900/60 sm:grid-cols-3 ${statsIn ? "is-in" : ""}`}

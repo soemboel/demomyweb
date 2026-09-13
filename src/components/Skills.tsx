@@ -49,7 +49,6 @@ export default function Skills() {
           })}
         </div>
 
-        {/* sedang dipelajari + alat tempur */}
         <div
           className={`reveal mt-10 grid gap-6 lg:grid-cols-2 ${visible ? "is-in" : ""}`}
           style={{ transitionDelay: visible ? "340ms" : "0ms" }}

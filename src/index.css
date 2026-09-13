@@ -51,8 +51,6 @@ body {
   background: #35497a;
 }
 
-/* ---------- ambient layers ---------- */
-
 .bg-grid {
   background-image: linear-gradient(rgba(92, 232, 164, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(92, 232, 164, 0.045) 1px, transparent 1px);
@@ -82,8 +80,6 @@ body {
   );
 }
 
-/* ---------- scroll reveal ---------- */
-
 .reveal {
   opacity: 0;
   transform: translateY(26px);
@@ -95,15 +91,11 @@ body {
   transform: none;
 }
 
-/* ---------- type helpers ---------- */
-
 .text-outline {
   color: transparent;
   -webkit-text-stroke: 1.6px rgba(92, 232, 164, 0.85);
   text-stroke: 1.6px rgba(92, 232, 164, 0.85);
 }
-
-/* ---------- keyframes ---------- */
 
 @keyframes blink {
   0%, 49% { opacity: 1; }
@@ -163,8 +155,6 @@ body {
 .animate-ticker-glow {
   animation: ticker-glow 3.4s ease-in-out infinite;
 }
-
-/* ---------- crab walk easter egg ---------- */
 
 .crab-floor-line {
   position: absolute;
@@ -274,8 +264,6 @@ body {
   0% { opacity: 0.55; transform: scaleX(1) translateY(0); }
   100% { opacity: 0; transform: scaleX(0.3) translateY(3px); }
 }
-
-/* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -1,11 +1,6 @@
 import { useLanguage } from "../i18n/LanguageContext";
 import { Crab } from "./CrabWalk";
 
-/**
- * Full-width crab strip shown on anything narrower than the desktop
- * beach-sidebar breakpoint (phones, tablets, and regular desktop windows).
- * Both crabs share one lane and can pass through each other when they meet.
- */
 export default function CrabMobile() {
   const { language } = useLanguage();
   const blueLabel = language === "id" ? "Kepiting biru — klik untuk lompat" : "Blue crab — click to jump";

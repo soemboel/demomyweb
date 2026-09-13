@@ -29,9 +29,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       window.localStorage.setItem(STORAGE_KEY, language);
-    } catch {
-      // ignore (private browsing, storage disabled, etc.)
-    }
+    } catch {}
     document.documentElement.lang = language;
   }, [language]);
 
