@@ -9,7 +9,7 @@ const typeStyle: Record<string, { badge: string; dot: string }> = {
   chore: { badge: "border-solar/40 text-solar", dot: "bg-solar" },
   fix: { badge: "border-blush/40 text-blush", dot: "bg-blush" },
 };
-
+// time line
 export default function Timeline() {
   const { t } = useLanguage();
   const { gitLog, timelineUI } = t;

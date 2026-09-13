@@ -6,7 +6,7 @@ type Props = {
   title: string;
   sub?: string;
 };
-
+// header mas
 export default function SectionHeader({ index, cmd, title, sub }: Props) {
   const { ref, visible } = useReveal<HTMLDivElement>();
   return (

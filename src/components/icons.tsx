@@ -1,7 +1,7 @@
 type IconProps = {
   className?: string;
 };
-
+// nice icon here guys
 export function GithubIcon({ className = "w-4 h-4" }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">

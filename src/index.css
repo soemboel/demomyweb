@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+/* jelas pakai tailwind dong */
 @theme {
   --font-display: "Space Grotesk", "Trebuchet MS", ui-sans-serif, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;

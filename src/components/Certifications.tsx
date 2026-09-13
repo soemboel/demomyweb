@@ -37,7 +37,7 @@ export default function Certifications() {
             </span>
           </div>
         ))}
-
+{/* hi dude */}
         <a
           href="https://linkedin.com"
           target="_blank"

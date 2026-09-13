@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+// pusinggggg
 export function useReducedMotion(): boolean {
   const [reduced, setReduced] = useState<boolean>(() =>
     typeof window !== "undefined"

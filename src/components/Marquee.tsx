@@ -1,6 +1,6 @@
 import { useLanguage } from "../i18n/LanguageContext";
 import { AsteriskIcon } from "./icons";
-
+// nice marque love
 export default function Marquee() {
   const { t } = useLanguage();
   const row = [...t.marqueeItems, ...t.marqueeItems];

@@ -8,7 +8,7 @@ const accentMap = {
   aqua: { top: "border-t-aqua", text: "text-aqua", tag: "border-aqua/30 text-aqua/90" },
   solar: { top: "border-t-solar", text: "text-solar", tag: "border-solar/30 text-solar/90" },
 } as const;
-
+// project
 export default function Projects() {
   const { t } = useLanguage();
   const { projects, projectsUI } = t;

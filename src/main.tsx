@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import { LanguageProvider } from "./i18n/LanguageContext";
-
+// line 3 kok error ya?
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <LanguageProvider>
     <App />
