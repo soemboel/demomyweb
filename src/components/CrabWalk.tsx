@@ -102,7 +102,8 @@ export function Crab({ color, side, label, full = false, startFrac }: CrabProps)
           distSincePause = 0;
           nextPauseAt = 40 + Math.random() * 180;
           if (Math.random() < 0.55) {
-            pausedUntil = now + 500 + Math.random() * 1500;
+            pausedUntil = now + 900 + Math.random() * 2400;
+            facing = Math.random() < 0.5 ? 1 : -1;
           }
         }
 
@@ -185,7 +186,7 @@ export default function CrabSidebar() {
     <>
       <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[230px] overflow-hidden min-[1700px]:block">
         <img
-          src="/beach.png"
+          src="/beach.webp"
           alt=""
           className="h-full w-full object-cover"
           style={{ imageRendering: "pixelated" }}
@@ -198,7 +199,7 @@ export default function CrabSidebar() {
 
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[230px] overflow-hidden min-[1700px]:block">
         <img
-          src="/beach.png"
+          src="/beach.webp"
           alt=""
           className="h-full w-full object-cover"
           style={{ imageRendering: "pixelated" }}

@@ -16,7 +16,7 @@ export const en: Content = {
     gpa: "",
     status: "[idle] chilling",
     focus: ["Desktop App Development", "Web Development", "Tinkering with Servers & Automation"],
-    avatar: "/profile.jpg",
+    avatar: "/profile.webp",
   },
 
   stats: [
@@ -82,7 +82,7 @@ export const en: Content = {
       accent: "term",
       repo: "https://github.com/soemboel",
       featured: true,
-      image: "/macroapp.png",
+      image: "/macroapp.webp",
     },
     {
       id: "steganography",

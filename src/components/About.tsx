@@ -34,7 +34,7 @@ export default function About() {
 
               <div className="img-sweep relative overflow-hidden">
                 <img
-                  src={profile.avatar || "/profile.jpg"}
+                  src={profile.avatar || "/profile.webp"}
                   alt={`${about.altPrefix} ${profile.name}`}
                   className="w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   loading="lazy"
@@ -44,7 +44,7 @@ export default function About() {
 
               <div className="flex items-center justify-between px-1 pb-1 pt-3 font-mono text-[11px] text-fog">
                 <span>
-                  profile.jpg <span className="text-fog/50">· 1024×1024</span>
+                  profile.webp <span className="text-fog/50">· 1024×1024</span>
                 </span>
                 <span className="animate-ticker-glow text-term">● {about.liveLabel}</span>
               </div>

@@ -16,7 +16,7 @@ export const id: Content = {
     gpa: "",
     status: "[idle] bersantai",
     focus: ["Desktop App Development", "Web Development", "Ngoprek Server & Otomasi"],
-    avatar: "/profile.jpg",
+    avatar: "/profile.webp",
   },
 
   stats: [
@@ -82,7 +82,7 @@ export const id: Content = {
       accent: "term",
       repo: "https://github.com/soemboel",
       featured: true,
-      image: "/macroapp.png",
+      image: "/macroapp.webp",
     },
     {
       id: "steganography",

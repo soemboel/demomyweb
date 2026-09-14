@@ -3,7 +3,8 @@ import { AsteriskIcon } from "./icons";
 // nice marque love
 export default function Marquee() {
   const { t } = useLanguage();
-  const row = [...t.marqueeItems, ...t.marqueeItems];
+  const unit = [...t.marqueeItems, ...t.marqueeItems, ...t.marqueeItems, ...t.marqueeItems];
+  const row = [...unit, ...unit];
   return (
     <div className="marquee-mask mt-20 overflow-hidden border-y border-line bg-ink-900/70 py-4">
       <div className="animate-marquee flex w-max items-center gap-8 whitespace-nowrap pr-8">
