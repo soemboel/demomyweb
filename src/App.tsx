@@ -9,10 +9,12 @@ import Certifications from "./components/Certifications";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import CrabMobile from "./components/CrabMobile";
+import CursorMove from "./components/CursorMove";
 // import all biar cantik
 export default function App() {
   return (
     <div className="scanlines relative min-h-screen overflow-x-clip bg-ink-950 text-mist">
+      <CursorMove />
       <div className="bg-grid pointer-events-none fixed inset-0 z-0" aria-hidden="true" />
       <div
         className="pointer-events-none fixed inset-0 z-0"
