@@ -1,4 +1,5 @@
-import { useReveal } from "../hooks";
+import { motion } from "framer-motion";
+import { fadeUp, viewport } from "../motion";
 
 type Props = {
   index: string;
@@ -8,9 +9,14 @@ type Props = {
 };
 // header mas
 export default function SectionHeader({ index, cmd, title, sub }: Props) {
-  const { ref, visible } = useReveal<HTMLDivElement>();
   return (
-    <div ref={ref} className={`reveal mb-10 sm:mb-14 ${visible ? "is-in" : ""}`}>
+    <motion.div
+      className="mb-10 sm:mb-14"
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+      variants={fadeUp}
+    >
       <div className="flex items-center gap-4">
         <span className="font-mono text-xs tracking-[0.25em] text-term">
           <span className="text-fog/60">//</span> {index}
@@ -22,6 +28,6 @@ export default function SectionHeader({ index, cmd, title, sub }: Props) {
         {title}
       </h2>
       {sub && <p className="mt-3 max-w-xl font-mono text-[13px] leading-relaxed text-fog">{sub}</p>}
-    </div>
+    </motion.div>
   );
 }

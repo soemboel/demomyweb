@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
-import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { ChipIcon } from "./icons";
+import { fadeUp, staggerContainer, viewport } from "../motion";
 
 const accentMap = {
   term: { bar: "bg-term", text: "text-term", chip: "border-term/40 text-term" },
@@ -12,23 +13,28 @@ const accentMap = {
 export default function Skills() {
   const { t } = useLanguage();
   const { skillGroups, learning, toolbox, skills } = t;
-  const { ref, visible } = useReveal<HTMLDivElement>(0.1);
 
   return (
     <section id="skill" className="relative scroll-mt-24 border-y border-line bg-ink-900/40">
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
         <SectionHeader index="02" cmd={skills.sectionCmd} title={skills.sectionTitle} sub={skills.sectionSub} />
 
-        <div ref={ref} className="grid gap-6 md:grid-cols-3">
+        <motion.div
+          className="grid gap-6 md:grid-cols-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={staggerContainer(0.12)}
+        >
           {skillGroups.map((group, gi) => {
             const accent = accentMap[group.accent];
             return (
-              <div
+              <motion.div
                 key={group.title}
-                className={`reveal group border border-line bg-ink-900/80 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ink-600 hover:shadow-[0_18px_50px_-24px_rgba(0,0,0,0.9)] ${
-                  visible ? "is-in" : ""
-                }`}
-                style={{ transitionDelay: visible ? `${gi * 110}ms` : "0ms" }}
+                variants={fadeUp}
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                className="group border border-line bg-ink-900/80 p-6 transition-[border-color,box-shadow] duration-300 hover:border-ink-600 hover:shadow-[0_18px_50px_-24px_rgba(0,0,0,0.9)]"
               >
                 <div className="flex items-baseline justify-between gap-3">
                   <h3 className={`font-display text-lg font-semibold ${accent.text}`}>{group.title}</h3>
@@ -44,16 +50,19 @@ export default function Skills() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
-        <div
-          className={`reveal mt-10 grid gap-6 lg:grid-cols-2 ${visible ? "is-in" : ""}`}
-          style={{ transitionDelay: visible ? "340ms" : "0ms" }}
+        <motion.div
+          className="mt-10 grid gap-6 lg:grid-cols-2"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={staggerContainer(0.12, 0.1)}
         >
-          <div className="border border-dashed border-term/30 bg-term/[0.03] p-6">
+          <motion.div variants={fadeUp} className="border border-dashed border-term/30 bg-term/[0.03] p-6">
             <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.2em] text-term">
               <span className="dot-pulse h-1.5 w-1.5 rounded-full bg-term" />
               {skills.learningLabel}
@@ -69,9 +78,9 @@ export default function Skills() {
                 </span>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="border border-line bg-ink-900/80 p-6">
+          <motion.div variants={fadeUp} className="border border-line bg-ink-900/80 p-6">
             <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.2em] text-solar">
               <ChipIcon className="h-4 w-4" />
               {skills.toolboxLabel}
@@ -86,8 +95,8 @@ export default function Skills() {
                 </span>
               ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

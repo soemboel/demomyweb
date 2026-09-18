@@ -1,25 +1,29 @@
+import { motion } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
-import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { ArrowUpRight } from "./icons";
+import { fadeUp, staggerContainer, viewport } from "../motion";
 
 export default function Certifications() {
   const { t } = useLanguage();
   const { certifications, certUI } = t;
-  const { ref, visible } = useReveal<HTMLDivElement>(0.08);
 
   return (
     <section className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
       <SectionHeader index="05" cmd={certUI.sectionCmd} title={certUI.sectionTitle} sub={certUI.sectionSub} />
 
-      <div ref={ref} className="border-t border-line">
-        {certifications.map((c, i) => (
-          <div
+      <motion.div
+        className="border-t border-line"
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+        variants={staggerContainer(0.07)}
+      >
+        {certifications.map((c) => (
+          <motion.div
             key={c.title}
-            className={`reveal group grid grid-cols-[64px_1fr] items-baseline gap-x-5 gap-y-1 border-b border-line px-2 py-5 transition-all duration-300 hover:bg-ink-900/70 hover:pl-5 sm:grid-cols-[90px_1fr_auto] sm:gap-x-8 ${
-              visible ? "is-in" : ""
-            }`}
-            style={{ transitionDelay: visible ? `${i * 70}ms` : "0ms" }}
+            variants={fadeUp}
+            className="group grid grid-cols-[64px_1fr] items-baseline gap-x-5 gap-y-1 border-b border-line px-2 py-5 transition-all duration-300 hover:bg-ink-900/70 hover:pl-5 sm:grid-cols-[90px_1fr_auto] sm:gap-x-8"
           >
             <span className="font-mono text-[13px] text-term">{c.year}</span>
             <div>
@@ -35,7 +39,7 @@ export default function Certifications() {
             >
               {certUI.kindLabels[c.kind]}
             </span>
-          </div>
+          </motion.div>
         ))}
 {/* hi dude */}
         <a
@@ -47,7 +51,7 @@ export default function Certifications() {
           <span className="text-term">$</span> {certUI.verifyCta}
           <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
-      </div>
+      </motion.div>
     </section>
   );
 }

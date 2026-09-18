@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useScrollProgress } from "../hooks";
 import { useLanguage } from "../i18n/LanguageContext";
 
@@ -25,7 +26,12 @@ export default function Nav() {
   const { t } = useLanguage();
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-line/70 bg-ink-950/85 backdrop-blur-md">
+    <motion.header
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.19, 0.8, 0.22, 1] }}
+      className="fixed inset-x-0 top-0 z-50 border-b border-line/70 bg-ink-950/85 backdrop-blur-md"
+    >
       <div
         className="absolute left-0 top-0 h-[2px] bg-term shadow-[0_0_12px_rgba(92,232,164,0.8)] transition-[width] duration-150 ease-out"
         style={{ width: `${progress * 100}%` }}
@@ -40,9 +46,21 @@ export default function Nav() {
             aria-label={t.nav.openMenuAria}
             aria-expanded={open}
           >
-            <span className={`h-[2px] w-4 bg-term transition-transform duration-300 ${open ? "translate-y-[7px] rotate-45" : ""}`} />
-            <span className={`h-[2px] w-4 bg-term transition-opacity duration-300 ${open ? "opacity-0" : ""}`} />
-            <span className={`h-[2px] w-4 bg-term transition-transform duration-300 ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
+            <motion.span
+              animate={open ? { y: 7, rotate: 45 } : { y: 0, rotate: 0 }}
+              transition={{ duration: 0.25 }}
+              className="h-[2px] w-4 bg-term"
+            />
+            <motion.span
+              animate={open ? { opacity: 0 } : { opacity: 1 }}
+              transition={{ duration: 0.2 }}
+              className="h-[2px] w-4 bg-term"
+            />
+            <motion.span
+              animate={open ? { y: -7, rotate: -45 } : { y: 0, rotate: 0 }}
+              transition={{ duration: 0.25 }}
+              className="h-[2px] w-4 bg-term"
+            />
           </button>
 
           <a href="#beranda" className="group flex items-center gap-2 font-mono text-sm text-snow">
@@ -73,26 +91,33 @@ export default function Nav() {
         <LanguageToggle className="md:hidden" />
       </nav>
 
-      <div
-        className={`overflow-hidden border-line/70 bg-ink-900/95 transition-all duration-300 md:hidden ${
-          open ? "max-h-80 border-b" : "max-h-0"
-        }`}
-      >
-        <ul className="space-y-1 px-5 py-4">
-          {t.navLinks.map((l, i) => (
-            <li key={l.id}>
-              <a
-                href={`#${l.id}`}
-                onClick={() => setOpen(false)}
-                className="block py-1.5 font-mono text-sm text-mist transition-colors hover:text-term"
-              >
-                <span className="mr-2 text-fog/50">0{i + 1}.</span>
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </header>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.19, 0.8, 0.22, 1] }}
+            className="overflow-hidden border-b border-line/70 bg-ink-900/95 md:hidden"
+          >
+            <ul className="space-y-1 px-5 py-4">
+              {t.navLinks.map((l, i) => (
+                <li key={l.id}>
+                  <a
+                    href={`#${l.id}`}
+                    onClick={() => setOpen(false)}
+                    className="block py-1.5 font-mono text-sm text-mist transition-colors hover:text-term"
+                  >
+                    <span className="mr-2 text-fog/50">0{i + 1}.</span>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
-import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { ArrowUpRight, BranchIcon, FolderIcon, GithubIcon, StarIcon } from "./icons";
+import { fadeUp, staggerContainer, viewport } from "../motion";
 
 const accentMap = {
   term: { top: "border-t-term", text: "text-term", tag: "border-term/30 text-term/90" },
@@ -12,7 +13,6 @@ const accentMap = {
 export default function Projects() {
   const { t } = useLanguage();
   const { projects, projectsUI } = t;
-  const { ref, visible } = useReveal<HTMLDivElement>(0.08);
   const featured = projects.find((p) => p.featured)!;
   const rest = projects.filter((p) => !p.featured);
 
@@ -25,11 +25,13 @@ export default function Projects() {
         sub={`${projectsUI.subBefore}${projects.length}${projectsUI.subAfter}`}
       />
 
-      <div ref={ref}>
-        <article
-          className={`reveal group relative grid overflow-hidden border border-line bg-ink-900 transition-all duration-300 hover:border-term/40 lg:grid-cols-2 ${
-            visible ? "is-in" : ""
-          }`}
+      <div>
+        <motion.article
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={fadeUp}
+          className="group relative grid overflow-hidden border border-line bg-ink-900 transition-colors duration-300 hover:border-term/40 lg:grid-cols-2"
         >
           <div className="relative min-h-[240px] overflow-hidden border-b border-line lg:border-b-0 lg:border-r">
             <img
@@ -94,18 +96,24 @@ export default function Projects() {
               </span>
             </div>
           </div>
-        </article>
+        </motion.article>
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">
-          {rest.map((p, i) => {
+        <motion.div
+          className="mt-6 grid gap-6 sm:grid-cols-2"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={staggerContainer(0.1, 0.12)}
+        >
+          {rest.map((p) => {
             const accent = accentMap[p.accent];
             return (
-              <article
+              <motion.article
                 key={p.id}
-                className={`reveal group relative flex flex-col border border-line border-t-2 bg-ink-900/80 p-6 transition-all duration-300 hover:-translate-y-1.5 hover:bg-ink-900 hover:shadow-[0_22px_55px_-26px_rgba(0,0,0,0.95)] sm:p-7 ${accent.top} ${
-                  visible ? "is-in" : ""
-                }`}
-                style={{ transitionDelay: visible ? `${140 + i * 90}ms` : "0ms" }}
+                variants={fadeUp}
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                className={`group relative flex flex-col border border-line border-t-2 bg-ink-900/80 p-6 transition-[background-color,box-shadow] duration-300 hover:bg-ink-900 hover:shadow-[0_22px_55px_-26px_rgba(0,0,0,0.95)] sm:p-7 ${accent.top}`}
               >
                 <div className="flex items-start justify-between">
                   <span className={`${accent.text} transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110`}>
@@ -158,10 +166,10 @@ export default function Projects() {
                     ~/proyek/{p.id} <span className="cursor-blink text-term">▍</span>
                   </span>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
-        </div>
+        </motion.div>
 
         <p className="mt-10 text-center font-mono text-[12.5px] text-fog">
           <span className="text-term">$</span> {projectsUI.cloneCmd}{" "}

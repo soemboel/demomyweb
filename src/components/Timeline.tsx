@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
-import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { BranchIcon } from "./icons";
+import { fadeUp, staggerContainer, viewport } from "../motion";
 
 const typeStyle: Record<string, { badge: string; dot: string }> = {
   init: { badge: "border-aqua/40 text-aqua", dot: "bg-aqua" },
@@ -13,7 +14,6 @@ const typeStyle: Record<string, { badge: string; dot: string }> = {
 export default function Timeline() {
   const { t } = useLanguage();
   const { gitLog, timelineUI } = t;
-  const { ref, visible } = useReveal<HTMLDivElement>(0.06);
 
   return (
     <section id="riwayat" className="relative scroll-mt-24 border-y border-line bg-ink-900/40">
@@ -36,16 +36,20 @@ export default function Timeline() {
           </span>
         </div>
 
-        <div ref={ref} className="relative ml-2 border-l border-line sm:ml-4">
-          {gitLog.map((entry, i) => {
+        <motion.div
+          className="relative ml-2 border-l border-line sm:ml-4"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={staggerContainer(0.1)}
+        >
+          {gitLog.map((entry) => {
             const style = typeStyle[entry.type];
             return (
-              <div
+              <motion.div
                 key={entry.hash}
-                className={`reveal group relative pb-10 pl-7 transition-colors duration-300 last:pb-0 sm:pl-10 ${
-                  visible ? "is-in" : ""
-                }`}
-                style={{ transitionDelay: visible ? `${i * 90}ms` : "0ms" }}
+                variants={fadeUp}
+                className="group relative pb-10 pl-7 transition-colors duration-300 last:pb-0 sm:pl-10"
               >
                 <span
                   className={`absolute -left-[7px] top-1.5 h-[13px] w-[13px] rounded-full border-[3px] border-ink-950 transition-transform duration-300 group-hover:scale-125 ${style.dot}`}
@@ -71,12 +75,12 @@ export default function Timeline() {
                     <p className="mt-1.5 max-w-2xl text-[13.5px] leading-relaxed text-mist/75">{entry.detail}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
 
           <div className="absolute -left-[5px] top-1.5 h-[9px] w-[9px] rounded-full bg-term shadow-[0_0_14px_rgba(92,232,164,0.9)]" />
-        </div>
+        </motion.div>
       </div>
     </section>
   );

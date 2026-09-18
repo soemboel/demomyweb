@@ -1,13 +1,12 @@
+import { motion } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
-import { useReveal } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { CheckIcon } from "./icons";
+import { fadeLeft, fadeRight, fadeUp, staggerContainer, viewport } from "../motion";
 
 export default function About() {
   const { t } = useLanguage();
   const { profile, about } = t;
-  const { ref: imgRef, visible: imgIn } = useReveal<HTMLDivElement>();
-  const { ref: textRef, visible: textIn } = useReveal<HTMLDivElement>();
 
   const specs: { key: string; value: string; tone?: string }[] = [
     { key: about.specsLabels.fullName, value: profile.name },
@@ -25,7 +24,13 @@ export default function About() {
 
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <div ref={imgRef} className={`reveal lg:sticky lg:top-28 ${imgIn ? "is-in" : ""}`}>
+          <motion.div
+            className="lg:sticky lg:top-28"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={fadeLeft}
+          >
             <div className="group relative border border-line bg-ink-900 p-3">
               <span className="absolute -left-px -top-px h-5 w-5 border-l-2 border-t-2 border-term transition-all duration-300 group-hover:h-8 group-hover:w-8" />
               <span className="absolute -right-px -top-px h-5 w-5 border-r-2 border-t-2 border-term transition-all duration-300 group-hover:h-8 group-hover:w-8" />
@@ -49,10 +54,16 @@ export default function About() {
                 <span className="animate-ticker-glow text-term">● {about.liveLabel}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div ref={textRef} className={`reveal lg:col-span-7 ${textIn ? "is-in" : ""}`}>
+        <motion.div
+          className="lg:col-span-7"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={fadeRight}
+        >
           <div className="space-y-5 text-[15px] leading-relaxed text-mist/90">
             <p>
               {about.introGreeting}
@@ -101,19 +112,25 @@ export default function About() {
             </dl>
           </div>
 
-          <ul className="mt-9 space-y-3">
+          <motion.ul
+            className="mt-9 space-y-3"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={staggerContainer(0.08)}
+          >
             {about.principles.map((p) => (
-              <li key={p} className="group flex items-start gap-3 text-[14px] text-mist/85">
+              <motion.li key={p} variants={fadeUp} className="group flex items-start gap-3 text-[14px] text-mist/85">
                 <span className="mt-0.5 text-term transition-transform duration-200 group-hover:translate-x-1">
                   <CheckIcon className="h-4 w-4" />
                 </span>
                 <span className="border-b border-transparent pb-0.5 transition-colors duration-200 group-hover:border-term/40">
                   {p}
                 </span>
-              </li>
+              </motion.li>
             ))}
-          </ul>
-        </div>
+          </motion.ul>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,8 +1,10 @@
 import { FormEvent, useState } from "react";
+import { motion } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
-import { useReducedMotion, useReveal } from "../hooks";
+import { useReducedMotion } from "../hooks";
 import SectionHeader from "./SectionHeader";
 import { ArrowUpRight, CopyIcon, GithubIcon, InstagramIcon, LinkedinIcon, MailIcon } from "./icons";
+import { fadeLeft, fadeRight, viewport } from "../motion";
 
 const socialIcon = (name: string) => {
   switch (name) {
@@ -21,7 +23,6 @@ export default function Contact() {
   const { t } = useLanguage();
   const { profile, socials, contactUI } = t;
   const reduced = useReducedMotion();
-  const { ref, visible } = useReveal<HTMLDivElement>(0.08);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -135,8 +136,14 @@ export default function Contact() {
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
         <SectionHeader index="06" cmd={contactUI.sectionCmd} title={contactUI.sectionTitle} sub={contactUI.sectionSub} />
 
-        <div ref={ref} className="grid gap-12 lg:grid-cols-12">
-          <div className={`reveal lg:col-span-5 ${visible ? "is-in" : ""}`}>
+        <div className="grid gap-12 lg:grid-cols-12">
+          <motion.div
+            className="lg:col-span-5"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={fadeLeft}
+          >
             <p className="text-[15px] leading-relaxed text-mist/85">
               {contactUI.introBefore}
               <span className="text-term">{contactUI.introHighlight}</span>
@@ -196,9 +203,16 @@ export default function Contact() {
               <br />
               <span className="text-mist/80">{contactUI.availabilityTimezone}</span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className={`reveal lg:col-span-7 ${visible ? "is-in" : ""}`} style={{ transitionDelay: "140ms" }}>
+          <motion.div
+            className="lg:col-span-7"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={fadeRight}
+            transition={{ delay: 0.12 }}
+          >
             <div className="border border-line bg-ink-900 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.9)]">
               <div className="flex items-center gap-2 border-b border-line bg-ink-850 px-4 py-2.5">
                 <span className="h-3 w-3 rounded-full bg-blush/80" />
@@ -272,9 +286,15 @@ export default function Contact() {
                   {outLines.length > 0 && (
                     <div className="border-t border-line/70 pt-4 font-mono text-[12.5px] leading-relaxed">
                       {outLines.map((l, i) => (
-                        <div key={i} className={l.startsWith(">") ? "text-term/90" : l.startsWith("//") ? "text-fog/70" : "text-snow"}>
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: -8 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          className={l.startsWith(">") ? "text-term/90" : l.startsWith("//") ? "text-fog/70" : "text-snow"}
+                        >
                           {l || " "}
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   )}
@@ -283,9 +303,15 @@ export default function Contact() {
               ) : (
                 <div className="p-6 font-mono text-[13px] leading-[1.9] sm:p-8">
                   {outLines.map((l, i) => (
-                    <div key={i} className={l.startsWith(">") ? "text-term/90" : l.startsWith("//") ? "text-fog/70" : "text-snow"}>
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className={l.startsWith(">") ? "text-term/90" : l.startsWith("//") ? "text-fog/70" : "text-snow"}
+                    >
                       {l || " "}
-                    </div>
+                    </motion.div>
                   ))}
                   <div className="mt-6 flex items-center gap-2">
                     <span className="text-term">{profile.handle}@portfolio</span>
@@ -303,7 +329,7 @@ export default function Contact() {
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
