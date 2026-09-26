@@ -19,8 +19,11 @@ const STORAGE_KEY = "site-language";
 
 function getInitialLanguage(): Language {
   if (typeof window === "undefined") return "id";
-  const stored = window.localStorage.getItem(STORAGE_KEY);
-  return stored === "en" ? "en" : "id";
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) === "en" ? "en" : "id";
+  } catch {
+    return "id";
+  }
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {

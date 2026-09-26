@@ -29,7 +29,7 @@ export default function Contact() {
   const [phase, setPhase] = useState<"idle" | "sending" | "sent">("idle");
   const [outLines, setOutLines] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
-  const [validationError, setValidationError] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState<keyof typeof contactUI.validation | null>(null);
 
   const copyEmail = async () => {
     try {
@@ -41,12 +41,12 @@ export default function Contact() {
     }
   };
 
-  const validate = (): string | null => {
-    if (!name.trim()) return contactUI.validation.nameRequired;
+  const validate = (): keyof typeof contactUI.validation | null => {
+    if (!name.trim()) return "nameRequired";
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))
-      return contactUI.validation.emailInvalid;
+      return "emailInvalid";
     if (!message.trim() || message.trim().length < 5)
-      return contactUI.validation.messageTooShort;
+      return "messageTooShort";
     return null;
   };
 
@@ -270,7 +270,7 @@ export default function Contact() {
                   <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
                     <p className="font-mono text-[11px] text-fog/60">
                       {validationError
-                        ? <span className="text-blush">{`// Error: ${validationError}`}</span>
+                        ? <span className="text-blush">{`// Error: ${contactUI.validation[validationError]}`}</span>
                         : contactUI.helperText}
                     </p>
                     <button

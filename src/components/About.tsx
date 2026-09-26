@@ -119,8 +119,8 @@ export default function About() {
             viewport={viewport}
             variants={staggerContainer(0.08)}
           >
-            {about.principles.map((p) => (
-              <motion.li key={p} variants={fadeUp} className="group flex items-start gap-3 text-[14px] text-mist/85">
+            {about.principles.map((p, i) => (
+              <motion.li key={i} variants={fadeUp} className="group flex items-start gap-3 text-[14px] text-mist/85">
                 <span className="mt-0.5 text-term transition-transform duration-200 group-hover:translate-x-1">
                   <CheckIcon className="h-4 w-4" />
                 </span>

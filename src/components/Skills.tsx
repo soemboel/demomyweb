@@ -30,7 +30,7 @@ export default function Skills() {
             const accent = accentMap[group.accent];
             return (
               <motion.div
-                key={group.title}
+                key={gi}
                 variants={fadeUp}
                 whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}

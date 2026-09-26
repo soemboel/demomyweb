@@ -19,9 +19,9 @@ export default function Certifications() {
         viewport={viewport}
         variants={staggerContainer(0.07)}
       >
-        {certifications.map((c) => (
+        {certifications.map((c, i) => (
           <motion.div
-            key={c.title}
+            key={i}
             variants={fadeUp}
             className="group grid grid-cols-[64px_1fr] items-baseline gap-x-5 gap-y-1 border-b border-line px-2 py-5 transition-all duration-300 hover:bg-ink-900/70 hover:pl-5 sm:grid-cols-[90px_1fr_auto] sm:gap-x-8"
           >

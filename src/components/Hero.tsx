@@ -139,7 +139,7 @@ export default function Hero() {
         >
           {stats.map((s, i) => (
             <motion.div
-              key={s.label}
+              key={i}
               variants={fadeUp}
               className={`group relative px-6 py-6 transition-colors duration-300 hover:bg-ink-850 ${
                 i > 0 ? "border-t border-line sm:border-l sm:border-t-0" : ""
