@@ -1,5 +1,25 @@
 @import "tailwindcss";
 /* jelas pakai tailwind dong */
+
+/* self-hosted fonts (latin subset), preloaded in index.html */
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 @theme {
   --font-display: "Space Grotesk", "Trebuchet MS", ui-sans-serif, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -55,6 +75,7 @@ body {
   background-image: linear-gradient(rgba(92, 232, 164, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(92, 232, 164, 0.045) 1px, transparent 1px);
   background-size: 46px 46px;
+  transform: translateZ(0);
   mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, black 30%, transparent 78%);
   -webkit-mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, black 30%, transparent 78%);
 }
@@ -63,6 +84,7 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   opacity: 0.05;
   mix-blend-mode: overlay;
+  transform: translateZ(0);
 }
 
 .scanlines::after {
@@ -71,6 +93,7 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 70;
+  transform: translateZ(0);
   background: repeating-linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0.022) 0px,
@@ -110,20 +133,32 @@ body {
   animation: pulse-dot 2.2s ease-out infinite;
 }
 
+/* transform-based (was `top`) so it stays on the compositor: -18% → 118% of parent, in units of own 14% height */
 @keyframes sweep {
-  0% { top: -18%; }
-  100% { top: 118%; }
+  0% { transform: translateY(-128.6%); }
+  100% { transform: translateY(842.9%); }
 }
 .img-sweep::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  top: -18%;
+  top: 0;
   height: 14%;
   background: linear-gradient(to bottom, transparent, rgba(92, 232, 164, 0.14), transparent);
+  transform: translateY(-128.6%);
   animation: sweep 5.2s linear infinite;
+  will-change: transform;
   pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+.animate-float {
+  animation: float 6.5s ease-in-out 0.9s infinite;
+  will-change: transform;
 }
 
 @keyframes ticker-glow {

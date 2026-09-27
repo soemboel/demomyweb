@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useScramble } from "../hooks";
 import { ArrowUpRight, GithubIcon, GraduationIcon, InstagramIcon, LinkedinIcon, MailIcon, PinIcon } from "./icons";
@@ -20,6 +20,12 @@ const socialIcon = (name: string) => {
   }
 };
 
+// isolated so the 34ms scramble ticks only re-render this text, not the whole hero
+function ScrambleText({ text, start, delay }: { text: string; start: boolean; delay: number }) {
+  const out = useScramble(text, start, delay);
+  return <>{out || " "}</>;
+}
+
 export default function Hero() {
   const { t } = useLanguage();
   const { profile, socials, stats, hero } = t;
@@ -29,43 +35,40 @@ export default function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
-  const line1 = useScramble(profile.firstName, started, 0);
-  const line2 = useScramble(profile.lastName, started, 500);
-
   return (
     <section id="beranda" className="relative overflow-hidden pt-28 sm:pt-36">
       <CrabSidebar />
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-10">
-          <motion.div
+          <m.div
             className="lg:col-span-6"
             initial="hidden"
             animate="visible"
             variants={staggerContainer(0.1, 0.15)}
           >
-            <motion.p variants={fadeUp} className="font-mono text-[13px] text-term">
+            <m.p variants={fadeUp} className="font-mono text-[13px] text-term">
               <span className="text-fog">{hero.promptPath} $</span> {hero.promptCmd}
-            </motion.p>
+            </m.p>
 
             <h1 className="mt-5 font-display font-bold leading-[0.95] tracking-tight text-snow">
               <span className="block text-[17vw] sm:text-7xl lg:text-[5.2rem]">
-                {line1 || "\u00A0"}
+                <ScrambleText text={profile.firstName} start={started} delay={0} />
               </span>
               <span className="text-outline block text-[17vw] sm:text-7xl lg:text-[5.2rem]">
-                {line2 || "\u00A0"}
+                <ScrambleText text={profile.lastName} start={started} delay={500} />
               </span>
             </h1>
 
-            <motion.p variants={fadeUp} className="mt-6 max-w-md text-[15px] leading-relaxed text-mist/90 sm:text-base">
+            <m.p variants={fadeUp} className="mt-6 max-w-md text-[15px] leading-relaxed text-mist/90 sm:text-base">
               {profile.role}
               {hero.joinRole}
               <span className="font-semibold text-snow">{profile.major}</span>
               {hero.afterMajor}
               <span className="text-term">{hero.highlight}</span>
               {hero.afterHighlight}
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-3">
+            <m.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-3">
               <span className="flex items-center gap-2.5 border border-term/30 bg-term/5 px-3.5 py-2 font-mono text-[11.5px] text-term">
                 <span className="dot-pulse h-2 w-2 rounded-full bg-term" />
                 {profile.status}
@@ -74,9 +77,9 @@ export default function Hero() {
                 <PinIcon className="h-3.5 w-3.5 text-solar" />
                 {profile.location}
               </span>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={fadeUp} className="mt-9 flex flex-wrap items-center gap-4">
+            <m.div variants={fadeUp} className="mt-9 flex flex-wrap items-center gap-4">
               <a
                 href="#proyek"
                 className="group flex items-center gap-2.5 bg-term px-6 py-3 font-mono text-[13px] font-medium text-ink-950 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_36px_-10px_rgba(92,232,164,0.65)]"
@@ -90,9 +93,9 @@ export default function Hero() {
               >
                 {hero.ctaContact}
               </a>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={fadeUp} className="mt-10 flex items-center gap-2">
+            <m.div variants={fadeUp} className="mt-10 flex items-center gap-2">
               <span className="mr-2 h-px w-10 bg-line" />
               {socials.map((s) => {
                 const Icon = socialIcon(s.name);
@@ -110,27 +113,26 @@ export default function Hero() {
                   </a>
                 );
               })}
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             className="lg:col-span-6 lg:mt-2"
             initial={{ opacity: 0, x: 32 }}
-            animate={{ opacity: 1, x: 0, y: [0, -9, 0] }}
-            transition={{
-              opacity: { duration: 0.7, ease: [0.19, 0.8, 0.22, 1], delay: 0.25 },
-              x: { duration: 0.7, ease: [0.19, 0.8, 0.22, 1], delay: 0.25 },
-              y: { duration: 6.5, ease: "easeInOut", repeat: Infinity, delay: 0.9 },
-            }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: [0.19, 0.8, 0.22, 1], delay: 0.25 }}
           >
-            <Terminal />
-            <p className="mt-3 text-right font-mono text-[11px] text-fog/50">
-              {hero.terminalCaption}
-            </p>
-          </motion.div>
+            {/* idle float runs as a CSS animation (compositor thread, no JS per frame) */}
+            <div className="animate-float">
+              <Terminal />
+              <p className="mt-3 text-right font-mono text-[11px] text-fog/50">
+                {hero.terminalCaption}
+              </p>
+            </div>
+          </m.div>
         </div>
 
-        <motion.div
+        <m.div
           className="mt-16 grid grid-cols-1 border border-line bg-ink-900/60 sm:grid-cols-3"
           initial="hidden"
           whileInView="visible"
@@ -138,7 +140,7 @@ export default function Hero() {
           variants={staggerContainer(0.1)}
         >
           {stats.map((s, i) => (
-            <motion.div
+            <m.div
               key={i}
               variants={fadeUp}
               className={`group relative px-6 py-6 transition-colors duration-300 hover:bg-ink-850 ${
@@ -150,9 +152,9 @@ export default function Hero() {
                 <span className="text-lg text-term sm:text-xl">{s.suffix}</span>
               </p>
               <p className="mt-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-fog">{s.label}</p>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

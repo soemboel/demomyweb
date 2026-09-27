@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import { BranchIcon } from "./icons";
@@ -36,7 +36,7 @@ export default function Timeline() {
           </span>
         </div>
 
-        <motion.div
+        <m.div
           className="relative ml-2 border-l border-line sm:ml-4"
           initial="hidden"
           whileInView="visible"
@@ -46,7 +46,7 @@ export default function Timeline() {
           {gitLog.map((entry) => {
             const style = typeStyle[entry.type];
             return (
-              <motion.div
+              <m.div
                 key={entry.hash}
                 variants={fadeUp}
                 className="group relative pb-10 pl-7 transition-colors duration-300 last:pb-0 sm:pl-10"
@@ -75,12 +75,12 @@ export default function Timeline() {
                     <p className="mt-1.5 max-w-2xl text-[13.5px] leading-relaxed text-mist/75">{entry.detail}</p>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             );
           })}
 
           <div className="absolute -left-[5px] top-1.5 h-[9px] w-[9px] rounded-full bg-term shadow-[0_0_14px_rgba(92,232,164,0.9)]" />
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

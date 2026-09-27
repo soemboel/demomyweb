@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useReducedMotion } from "../hooks";
 import SectionHeader from "./SectionHeader";
@@ -137,7 +137,7 @@ export default function Contact() {
         <SectionHeader index="06" cmd={contactUI.sectionCmd} title={contactUI.sectionTitle} sub={contactUI.sectionSub} />
 
         <div className="grid gap-12 lg:grid-cols-12">
-          <motion.div
+          <m.div
             className="lg:col-span-5"
             initial="hidden"
             whileInView="visible"
@@ -203,9 +203,9 @@ export default function Contact() {
               <br />
               <span className="text-mist/80">{contactUI.availabilityTimezone}</span>
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             className="lg:col-span-7"
             initial="hidden"
             whileInView="visible"
@@ -286,7 +286,7 @@ export default function Contact() {
                   {outLines.length > 0 && (
                     <div className="border-t border-line/70 pt-4 font-mono text-[12.5px] leading-relaxed">
                       {outLines.map((l, i) => (
-                        <motion.div
+                        <m.div
                           key={i}
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -294,7 +294,7 @@ export default function Contact() {
                           className={l.startsWith(">") ? "text-term/90" : l.startsWith("//") ? "text-fog/70" : "text-snow"}
                         >
                           {l || " "}
-                        </motion.div>
+                        </m.div>
                       ))}
                     </div>
                   )}
@@ -303,7 +303,7 @@ export default function Contact() {
               ) : (
                 <div className="p-6 font-mono text-[13px] leading-[1.9] sm:p-8">
                   {outLines.map((l, i) => (
-                    <motion.div
+                    <m.div
                       key={i}
                       initial={{ opacity: 0, x: -8 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -311,7 +311,7 @@ export default function Contact() {
                       className={l.startsWith(">") ? "text-term/90" : l.startsWith("//") ? "text-fog/70" : "text-snow"}
                     >
                       {l || " "}
-                    </motion.div>
+                    </m.div>
                   ))}
                   <div className="mt-6 flex items-center gap-2">
                     <span className="text-term">{profile.handle}@portfolio</span>
@@ -329,7 +329,7 @@ export default function Contact() {
                 </div>
               )}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

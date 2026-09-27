@@ -81,13 +81,24 @@ export function useClock(locale = "id-ID", timeZone = "Asia/Jakarta"): string {
 export function useScrollProgress(): number {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
-    const onScroll = () => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+      // round so tiny scroll deltas don't trigger a re-render
+      const next = max > 0 ? Math.round(Math.min(1, window.scrollY / max) * 1000) / 1000 : 0;
+      setProgress(next);
     };
-    onScroll();
+    // at most one update per frame
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
   return progress;
 }

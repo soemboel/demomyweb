@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useScrollProgress } from "../hooks";
 import { useLanguage } from "../i18n/LanguageContext";
 
@@ -26,15 +26,15 @@ export default function Nav() {
   const { t } = useLanguage();
 
   return (
-    <motion.header
+    <m.header
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.19, 0.8, 0.22, 1] }}
       className="fixed inset-x-0 top-0 z-50 border-b border-line/70 bg-ink-950/85 backdrop-blur-md"
     >
       <div
-        className="absolute left-0 top-0 h-[2px] bg-term shadow-[0_0_12px_rgba(92,232,164,0.8)] transition-[width] duration-150 ease-out"
-        style={{ width: `${progress * 100}%` }}
+        className="absolute left-0 top-0 h-[2px] w-full origin-left bg-term shadow-[0_0_12px_rgba(92,232,164,0.8)] transition-transform duration-150 ease-out"
+        style={{ transform: `scaleX(${progress})` }}
         aria-hidden="true"
       />
 
@@ -46,17 +46,17 @@ export default function Nav() {
             aria-label={t.nav.openMenuAria}
             aria-expanded={open}
           >
-            <motion.span
+            <m.span
               animate={open ? { y: 7, rotate: 45 } : { y: 0, rotate: 0 }}
               transition={{ duration: 0.25 }}
               className="h-[2px] w-4 bg-term"
             />
-            <motion.span
+            <m.span
               animate={open ? { opacity: 0 } : { opacity: 1 }}
               transition={{ duration: 0.2 }}
               className="h-[2px] w-4 bg-term"
             />
-            <motion.span
+            <m.span
               animate={open ? { y: -7, rotate: -45 } : { y: 0, rotate: 0 }}
               transition={{ duration: 0.25 }}
               className="h-[2px] w-4 bg-term"
@@ -93,7 +93,7 @@ export default function Nav() {
 
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
+          <m.div
             key="mobile-menu"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
@@ -115,9 +115,9 @@ export default function Nav() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </m.header>
   );
 }

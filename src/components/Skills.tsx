@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import { ChipIcon } from "./icons";
@@ -19,7 +19,7 @@ export default function Skills() {
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
         <SectionHeader index="02" cmd={skills.sectionCmd} title={skills.sectionTitle} sub={skills.sectionSub} />
 
-        <motion.div
+        <m.div
           className="grid gap-6 md:grid-cols-3"
           initial="hidden"
           whileInView="visible"
@@ -29,7 +29,7 @@ export default function Skills() {
           {skillGroups.map((group, gi) => {
             const accent = accentMap[group.accent];
             return (
-              <motion.div
+              <m.div
                 key={gi}
                 variants={fadeUp}
                 whileHover={{ y: -6 }}
@@ -50,19 +50,19 @@ export default function Skills() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="mt-10 grid gap-6 lg:grid-cols-2"
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
           variants={staggerContainer(0.12, 0.1)}
         >
-          <motion.div variants={fadeUp} className="border border-dashed border-term/30 bg-term/[0.03] p-6">
+          <m.div variants={fadeUp} className="border border-dashed border-term/30 bg-term/[0.03] p-6">
             <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.2em] text-term">
               <span className="dot-pulse h-1.5 w-1.5 rounded-full bg-term" />
               {skills.learningLabel}
@@ -78,9 +78,9 @@ export default function Skills() {
                 </span>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div variants={fadeUp} className="border border-line bg-ink-900/80 p-6">
+          <m.div variants={fadeUp} className="border border-line bg-ink-900/80 p-6">
             <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.2em] text-solar">
               <ChipIcon className="h-4 w-4" />
               {skills.toolboxLabel}
@@ -95,8 +95,8 @@ export default function Skills() {
                 </span>
               ))}
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   );

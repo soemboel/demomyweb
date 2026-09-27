@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import { CheckIcon } from "./icons";
@@ -24,7 +24,7 @@ export default function About() {
 
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <motion.div
+          <m.div
             className="lg:sticky lg:top-28"
             initial="hidden"
             whileInView="visible"
@@ -40,9 +40,18 @@ export default function About() {
               <div className="img-sweep relative overflow-hidden">
                 <img
                   src={profile.avatar || "/profile.webp"}
+                  srcSet={
+                    !profile.avatar || profile.avatar === "/profile.webp"
+                      ? "/profile-480.webp 480w, /profile-800.webp 800w, /profile.webp 1200w"
+                      : undefined
+                  }
+                  sizes="(min-width: 1024px) 430px, calc(100vw - 40px)"
+                  width={1200}
+                  height={1600}
                   alt={`${about.altPrefix} ${profile.name}`}
-                  className="w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/70 via-transparent to-transparent" />
               </div>
@@ -54,10 +63,10 @@ export default function About() {
                 <span className="animate-ticker-glow text-term">● {about.liveLabel}</span>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
 
-        <motion.div
+        <m.div
           className="lg:col-span-7"
           initial="hidden"
           whileInView="visible"
@@ -112,7 +121,7 @@ export default function About() {
             </dl>
           </div>
 
-          <motion.ul
+          <m.ul
             className="mt-9 space-y-3"
             initial="hidden"
             whileInView="visible"
@@ -120,17 +129,17 @@ export default function About() {
             variants={staggerContainer(0.08)}
           >
             {about.principles.map((p, i) => (
-              <motion.li key={i} variants={fadeUp} className="group flex items-start gap-3 text-[14px] text-mist/85">
+              <m.li key={i} variants={fadeUp} className="group flex items-start gap-3 text-[14px] text-mist/85">
                 <span className="mt-0.5 text-term transition-transform duration-200 group-hover:translate-x-1">
                   <CheckIcon className="h-4 w-4" />
                 </span>
                 <span className="border-b border-transparent pb-0.5 transition-colors duration-200 group-hover:border-term/40">
                   {p}
                 </span>
-              </motion.li>
+              </m.li>
             ))}
-          </motion.ul>
-        </motion.div>
+          </m.ul>
+        </m.div>
       </div>
     </section>
   );

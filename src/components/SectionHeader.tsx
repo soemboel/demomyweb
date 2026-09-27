@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeUp, viewport } from "../motion";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 // header mas
 export default function SectionHeader({ index, cmd, title, sub }: Props) {
   return (
-    <motion.div
+    <m.div
       className="mb-10 sm:mb-14"
       initial="hidden"
       whileInView="visible"
@@ -28,6 +28,6 @@ export default function SectionHeader({ index, cmd, title, sub }: Props) {
         {title}
       </h2>
       {sub && <p className="mt-3 max-w-xl font-mono text-[13px] leading-relaxed text-fog">{sub}</p>}
-    </motion.div>
+    </m.div>
   );
 }

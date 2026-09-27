@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import { ArrowUpRight, BranchIcon, FolderIcon, GithubIcon, StarIcon } from "./icons";
@@ -26,7 +26,7 @@ export default function Projects() {
       />
 
       <div>
-        <motion.article
+        <m.article
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
@@ -36,9 +36,18 @@ export default function Projects() {
           <div className="relative min-h-[240px] overflow-hidden border-b border-line lg:border-b-0 lg:border-r">
             <img
               src={featured.image}
+              srcSet={
+                featured.image === "/macroapp.webp"
+                  ? "/macroapp-640.webp 640w, /macroapp.webp 869w"
+                  : undefined
+              }
+              sizes="(min-width: 1024px) 545px, calc(100vw - 40px)"
+              width={869}
+              height={705}
               alt={`${featured.title} preview`}
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.06]"
               loading="lazy"
+              decoding="async"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/25 to-transparent" />
             <span className="absolute left-4 top-4 border border-term/50 bg-ink-950/85 px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.2em] text-term">
@@ -96,9 +105,9 @@ export default function Projects() {
               </span>
             </div>
           </div>
-        </motion.article>
+        </m.article>
 
-        <motion.div
+        <m.div
           className="mt-6 grid gap-6 sm:grid-cols-2"
           initial="hidden"
           whileInView="visible"
@@ -108,7 +117,7 @@ export default function Projects() {
           {rest.map((p) => {
             const accent = accentMap[p.accent];
             return (
-              <motion.article
+              <m.article
                 key={p.id}
                 variants={fadeUp}
                 whileHover={{ y: -6 }}
@@ -166,10 +175,10 @@ export default function Projects() {
                     ~/proyek/{p.id} <span className="cursor-blink text-term">▍</span>
                   </span>
                 </div>
-              </motion.article>
+              </m.article>
             );
           })}
-        </motion.div>
+        </m.div>
 
         <p className="mt-10 text-center font-mono text-[12.5px] text-fog">
           <span className="text-term">$</span> {projectsUI.cloneCmd}{" "}

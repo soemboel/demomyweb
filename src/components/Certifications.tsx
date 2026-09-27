@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import { ArrowUpRight } from "./icons";
@@ -12,7 +12,7 @@ export default function Certifications() {
     <section className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-28">
       <SectionHeader index="05" cmd={certUI.sectionCmd} title={certUI.sectionTitle} sub={certUI.sectionSub} />
 
-      <motion.div
+      <m.div
         className="border-t border-line"
         initial="hidden"
         whileInView="visible"
@@ -20,7 +20,7 @@ export default function Certifications() {
         variants={staggerContainer(0.07)}
       >
         {certifications.map((c, i) => (
-          <motion.div
+          <m.div
             key={i}
             variants={fadeUp}
             className="group grid grid-cols-[64px_1fr] items-baseline gap-x-5 gap-y-1 border-b border-line px-2 py-5 transition-all duration-300 hover:bg-ink-900/70 hover:pl-5 sm:grid-cols-[90px_1fr_auto] sm:gap-x-8"
@@ -39,7 +39,7 @@ export default function Certifications() {
             >
               {certUI.kindLabels[c.kind]}
             </span>
-          </motion.div>
+          </m.div>
         ))}
 {/* hi dude */}
         <a
@@ -51,7 +51,7 @@ export default function Certifications() {
           <span className="text-term">$</span> {certUI.verifyCta}
           <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

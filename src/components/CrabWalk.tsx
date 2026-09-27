@@ -30,8 +30,15 @@ export function Crab({ color, side, label, full = false, startFrac }: CrabProps)
     const track = outer?.parentElement;
     if (!outer || !track || !trailLayer) return;
 
+    // cache track width so the loop never forces layout each frame
+    let trackWidth = track.clientWidth;
+    const ro = new ResizeObserver(() => {
+      trackWidth = track.clientWidth;
+    });
+    ro.observe(track);
+
     const bounds = (): [number, number] => {
-      const w = track.clientWidth;
+      const w = trackWidth;
       const pad = 10;
       if (full) return [pad, Math.max(pad + 20, w - pad - CRAB_WIDTH)];
       const half = w / 2;
@@ -72,11 +79,15 @@ export function Crab({ color, side, label, full = false, startFrac }: CrabProps)
 
     if (reduced) {
       outer.style.transform = `translate(${x}px, 0px)`;
-      return () => outer.removeEventListener("pointerdown", onJump);
+      return () => {
+        ro.disconnect();
+        outer.removeEventListener("pointerdown", onJump);
+      };
     }
 
     let raf = 0;
     let last = performance.now();
+    let running = false;
 
     const loop = (now: number) => {
       const dt = Math.min(32, now - last);
@@ -133,8 +144,24 @@ export function Crab({ color, side, label, full = false, startFrac }: CrabProps)
       raf = requestAnimationFrame(loop);
     };
 
-    raf = requestAnimationFrame(loop);
+    outer.style.transform = `translate(${x}px, 0px) scaleX(${facing})`;
+
+    // only animate while the crab is on screen (also stops when hidden via display:none)
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !running) {
+        running = true;
+        last = performance.now();
+        raf = requestAnimationFrame(loop);
+      } else if (!entry.isIntersecting && running) {
+        running = false;
+        cancelAnimationFrame(raf);
+      }
+    });
+    io.observe(track);
+
     return () => {
+      io.disconnect();
+      ro.disconnect();
       cancelAnimationFrame(raf);
       outer.removeEventListener("pointerdown", onJump);
     };
@@ -188,6 +215,10 @@ export default function CrabSidebar() {
         <img
           src="/beach.webp"
           alt=""
+          width={848}
+          height={1263}
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover"
           style={{ imageRendering: "pixelated" }}
         />
@@ -201,6 +232,10 @@ export default function CrabSidebar() {
         <img
           src="/beach.webp"
           alt=""
+          width={848}
+          height={1263}
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover"
           style={{ imageRendering: "pixelated" }}
         />
