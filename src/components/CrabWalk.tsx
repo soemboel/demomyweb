@@ -30,7 +30,6 @@ export function Crab({ color, side, label, full = false, startFrac }: CrabProps)
     const track = outer?.parentElement;
     if (!outer || !track || !trailLayer) return;
 
-    // cache track width so the loop never forces layout each frame
     let trackWidth = track.clientWidth;
     const ro = new ResizeObserver(() => {
       trackWidth = track.clientWidth;
@@ -146,7 +145,6 @@ export function Crab({ color, side, label, full = false, startFrac }: CrabProps)
 
     outer.style.transform = `translate(${x}px, 0px) scaleX(${facing})`;
 
-    // only animate while the crab is on screen (also stops when hidden via display:none)
     const io = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && !running) {
         running = true;

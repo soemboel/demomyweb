@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
-import { useScrollProgress } from "../hooks";
+import { useActiveSection, useScrollProgress } from "../hooks";
 import { useLanguage } from "../i18n/LanguageContext";
 
 function LanguageToggle({ className = "" }: { className?: string }) {
@@ -24,6 +24,7 @@ export default function Nav() {
   const progress = useScrollProgress();
   const [open, setOpen] = useState(false);
   const { t } = useLanguage();
+  const active = useActiveSection(t.navLinks.map((l) => l.id));
 
   return (
     <m.header
@@ -72,17 +73,35 @@ export default function Nav() {
         </div>
 
         <ul className="hidden items-center gap-7 md:flex">
-          {t.navLinks.map((l, i) => (
-            <li key={l.id}>
-              <a
-                href={`#${l.id}`}
-                className="group font-mono text-[12px] text-fog transition-colors duration-200 hover:text-term"
-              >
-                <span className="mr-1 text-fog/50 group-hover:text-term/70">0{i + 1}.</span>
-                {l.label}
-              </a>
-            </li>
-          ))}
+          {t.navLinks.map((l, i) => {
+            const isActive = active === l.id;
+            return (
+              <li key={l.id}>
+                <a
+                  href={`#${l.id}`}
+                  aria-current={isActive ? "location" : undefined}
+                  className={`group relative py-1 font-mono text-[12px] transition-colors duration-200 hover:text-term ${
+                    isActive ? "text-term" : "text-fog"
+                  }`}
+                >
+                  <span
+                    className={`mr-1 transition-colors duration-200 ${
+                      isActive ? "text-term" : "text-fog/50 group-hover:text-term/70"
+                    }`}
+                  >
+                    0{i + 1}.
+                  </span>
+                  {l.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-0 -bottom-0.5 h-px origin-left bg-term shadow-[0_0_8px_rgba(92,232,164,0.8)] transition-transform duration-300 ease-out ${
+                      isActive ? "scale-x-100" : "scale-x-0"
+                    }`}
+                  />
+                </a>
+              </li>
+            );
+          })}
           <li>
             <LanguageToggle />
           </li>
@@ -107,9 +126,14 @@ export default function Nav() {
                   <a
                     href={`#${l.id}`}
                     onClick={() => setOpen(false)}
-                    className="block py-1.5 font-mono text-sm text-mist transition-colors hover:text-term"
+                    aria-current={active === l.id ? "location" : undefined}
+                    className={`block py-1.5 font-mono text-sm transition-colors hover:text-term ${
+                      active === l.id ? "text-term" : "text-mist"
+                    }`}
                   >
-                    <span className="mr-2 text-fog/50">0{i + 1}.</span>
+                    <span className={`mr-2 ${active === l.id ? "text-term" : "text-fog/50"}`}>
+                      0{i + 1}.
+                    </span>
                     {l.label}
                   </a>
                 </li>

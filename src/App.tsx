@@ -11,8 +11,11 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import CrabMobile from "./components/CrabMobile";
 import CursorMove from "./components/CursorMove";
+import { useCleanHashLinks } from "./hooks";
 // import all biar cantik
 export default function App() {
+  useCleanHashLinks();
+
   return (
     <LazyMotion features={domAnimation} strict>
       <MotionConfig reducedMotion="user">

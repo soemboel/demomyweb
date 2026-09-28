@@ -1,7 +1,6 @@
 @import "tailwindcss";
 /* jelas pakai tailwind dong */
 
-/* self-hosted fonts (latin subset), preloaded in index.html */
 @font-face {
   font-family: "Space Grotesk";
   font-style: normal;
@@ -49,6 +48,10 @@ body {
   color: var(--color-mist);
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
+}
+
+section[tabindex="-1"]:focus {
+  outline: none;
 }
 
 ::selection {
@@ -133,7 +136,6 @@ body {
   animation: pulse-dot 2.2s ease-out infinite;
 }
 
-/* transform-based (was `top`) so it stays on the compositor: -18% → 118% of parent, in units of own 14% height */
 @keyframes sweep {
   0% { transform: translateY(-128.6%); }
   100% { transform: translateY(842.9%); }

@@ -20,7 +20,6 @@ const socialIcon = (name: string) => {
   }
 };
 
-// isolated so the 34ms scramble ticks only re-render this text, not the whole hero
 function ScrambleText({ text, start, delay }: { text: string; start: boolean; delay: number }) {
   const out = useScramble(text, start, delay);
   return <>{out || " "}</>;
@@ -122,7 +121,6 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: [0.19, 0.8, 0.22, 1], delay: 0.25 }}
           >
-            {/* idle float runs as a CSS animation (compositor thread, no JS per frame) */}
             <div className="animate-float">
               <Terminal />
               <p className="mt-3 text-right font-mono text-[11px] text-fog/50">

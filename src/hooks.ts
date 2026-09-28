@@ -78,6 +78,69 @@ export function useClock(locale = "id-ID", timeZone = "Asia/Jakarta"): string {
   }
 }
 
+export function useActiveSection(ids: string[], offset = 120): string {
+  const [active, setActive] = useState("");
+  const key = ids.join(",");
+
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const doc = document.documentElement;
+      if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) {
+        setActive(ids[ids.length - 1] ?? "");
+        return;
+      }
+      let current = "";
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= offset) current = id;
+      }
+      setActive(current);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [key, offset]);
+
+  return active;
+}
+
+export function useCleanHashLinks(): void {
+  useEffect(() => {
+    const stripHash = () => {
+      if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    };
+    stripHash();
+
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = (e.target as Element | null)?.closest?.('a[href^="#"]');
+      if (!link) return;
+      const id = decodeURIComponent(link.getAttribute("href")!.slice(1));
+      const target = id ? document.getElementById(id) : null;
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ block: "start" });
+      if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+      stripHash();
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+}
+
 export function useScrollProgress(): number {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
@@ -85,11 +148,9 @@ export function useScrollProgress(): number {
     const update = () => {
       raf = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      // round so tiny scroll deltas don't trigger a re-render
       const next = max > 0 ? Math.round(Math.min(1, window.scrollY / max) * 1000) / 1000 : 0;
       setProgress(next);
     };
-    // at most one update per frame
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
     };
