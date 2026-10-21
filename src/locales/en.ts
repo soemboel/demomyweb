@@ -12,7 +12,7 @@ export const en: Content = {
     major: "Computer and Network Engineering",
     semester: "Semester 6 · Class of 2024/2025",
     location: "Batam, Indonesia",
-    email: "hammudqwe@gmail.com",
+    email: "none",
     gpa: "",
     status: "[idle] chilling",
     focus: ["Desktop App Development", "Web Development", "Tinkering with Servers & Automation"],
@@ -159,7 +159,7 @@ export const en: Content = {
     { name: "GitHub", handle: "github.com/soemboel", url: "https://github.com/soemboel" },
     { name: "LinkedIn", handle: "in/habiby-eko-putra-nugraha", url: "https://www.linkedin.com/in/habiby-eko-putra-nugraha-4745a73b3/" },
     { name: "Instagram", handle: "@habiby_eko", url: "https://www.instagram.com/habiby_eko/" },
-    { name: "Email", handle: "hammudqwe@gmail.com", url: "mailto:hammudqwe@gmail.com" },
+    { name: "Email", handle: "none", url: "mailto:none" },
   ],
 
   navLinks: [
