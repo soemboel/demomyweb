@@ -39,6 +39,23 @@
   --color-blush: #ff7a93;
 }
 
+.light {
+  --color-ink-950: #f4f6fa;
+  --color-ink-900: #ffffff;
+  --color-ink-850: #edf0f7;
+  --color-ink-800: #dde3ef;
+  --color-ink-700: #c4cfe0;
+  --color-ink-600: #8fa0bb;
+  --color-line: #c0cde0;
+  --color-fog: #334155;
+  --color-mist: #0f172a;
+  --color-snow: #020617;
+  --color-term: #047857;
+  --color-solar: #b45309;
+  --color-aqua: #0369a1;
+  --color-blush: #be123c;
+}
+
 html {
   scroll-behavior: smooth;
 }

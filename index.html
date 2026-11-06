@@ -15,6 +15,11 @@
     <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="google-site-verification" content="MFfANHBFuWy6crH7fsA60IK90tAm29DERs2ZkQf-_2o" />
+    <script>
+      if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+        document.documentElement.classList.add('light');
+      }
+    </script>
     <title>Habiby</title>
   </head>
   <body>
