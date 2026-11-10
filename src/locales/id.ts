@@ -360,7 +360,7 @@ export const id: Content = {
       { text: "$ ./boot-portfolio.sh", kind: "cmd" },
       { text: "> inisialisasi portfolio v2.5.1 ....... [ OK ]", kind: "ok" },
       { text: "> memuat 4 proyek terpilih ............ [ OK ]", kind: "ok" },
-      { text: "> memeriksa status .................... [ IDLE - BERSANTAI ]", kind: "warn" },
+      { text: "> memeriksa status .................... [ IDLE ]", kind: "warn" },
       { text: "> sistem siap. Ketik 'help' untuk mulai, atau klik chip di bawah.", kind: "out" },
     ],
   },
