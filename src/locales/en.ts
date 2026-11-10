@@ -360,7 +360,7 @@ export const en: Content = {
       { text: "$ ./boot-portfolio.sh", kind: "cmd" },
       { text: "> initializing portfolio v2.5.1 ....... [ OK ]", kind: "ok" },
       { text: "> loading 4 featured projects ......... [ OK ]", kind: "ok" },
-      { text: "> checking status ..................... [ IDLE - CHILLING ]", kind: "warn" },
+      { text: "> checking status ..................... [ IDLE ]", kind: "warn" },
       { text: "> system ready. Type 'help' to start, or click a chip below.", kind: "out" },
     ],
   },
